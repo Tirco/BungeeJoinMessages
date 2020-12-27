@@ -35,19 +35,19 @@ public class FakeCommand extends Command implements TabExecutor{
             	player.sendMessage(message);
             	return;
             } else {
-            	if(args[0].equalsIgnoreCase("fakejoin")) {
+            	if(args[0].equalsIgnoreCase("fakejoin") || args[0].equalsIgnoreCase("fj") ) {
             		String message = MessageHandler.getInstance().getJoinNetworkMessage();
             		message = message.replace("%player%", player.getName());
             		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
             		return;
             		
-            	} else if(args[0].equalsIgnoreCase("fakequit")) {
+            	} else if(args[0].equalsIgnoreCase("fakequit")  || args[0].equalsIgnoreCase("fq")) {
             		String message = MessageHandler.getInstance().getLeaveNetworkMessage();
             		message = message.replace("%player%", player.getName());
             		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
             		return;
             		
-            	} else if(args[0].equalsIgnoreCase("fakeswitch")) {
+            	} else if(args[0].equalsIgnoreCase("fakeswitch")  || args[0].equalsIgnoreCase("fs")) {
             		if(args.length < 3) {
                     	String msg =             			
                     			"&6Arguments:\n"
@@ -59,7 +59,6 @@ public class FakeCommand extends Command implements TabExecutor{
                     	player.sendMessage(message);
                     	return;
             		} else {
-            			
             			String fromName = args[1];
             			String toName = args[2];
             			
@@ -73,6 +72,8 @@ public class FakeCommand extends Command implements TabExecutor{
                 		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
                 		return;
             		}
+            	} else if(args[0].equalsIgnoreCase("toggle")) {
+            		
             	}
             }
         }
@@ -80,7 +81,7 @@ public class FakeCommand extends Command implements TabExecutor{
 
 	@Override
 	public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-		List<String> commandArguments = ImmutableList.of("fakejoin","fakequit","fakeswitch");
+		List<String> commandArguments = ImmutableList.of("fakejoin","fakequit","fakeswitch","fj","fq","fs");
 		switch (args.length) {
 		case 1:
 			return commandArguments;

@@ -45,6 +45,7 @@ public class Main extends Plugin {
         // Commands enabled with following method must have entries in plugin.yml
         //getCommand("example").setExecutor(new ExampleCommand(this));
 		MessageHandler.getInstance().setupConfigMessages();
+		Storage.getInstance().setUpDefaultValuesFromConfig();
 		getProxy().getPluginManager().registerListener(this, new PlayerListener());
 		
 		ProxyServer.getInstance().getPluginManager().registerCommand(this, new FakeCommand());
@@ -97,5 +98,6 @@ public class Main extends Plugin {
 	public void reloadConfig() {
 		loadConfig();
 		MessageHandler.getInstance().setupConfigMessages();
+		Storage.getInstance().setUpDefaultValuesFromConfig();
 	}
 }

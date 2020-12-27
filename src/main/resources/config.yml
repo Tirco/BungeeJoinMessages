@@ -1,12 +1,8 @@
 ##Set server names
 Servers:
     lobby: "&9Lobby"
-    i-age: "&3Industrial Age"
-    d-age: "&cDark Age"
-    c-age: "&9Creative Age"
-    s-age: "&6Skyblock Age"
-    t-age: "&2Towny Age"
-    mining: "&9TownyMining Age"
+    survival: "&6Survival Server"
+    mining: "&9Mining Server"
     staff: "&4Staff Server"
     ???: "&7Unknown Server"
 Messages:
@@ -15,4 +11,13 @@ Messages:
     JoinNetworkMessage: "&6%player% &6has connected to the network!"
     LeaveNetworkMessage: "&6%player% &6has disconnected from the network!"
     ##Not yet implemented.
-    FirstTimeConnectedMessage: "&6%player% has connectet to the network for the first time!"
+    ##FirstTimeConnectedMessage: "&6%player% has connectet to the network for the first time!"
+Settings:
+    ##Should players with the bungeejoinmessages.silent permission be silenced by default?
+    SilentJoinDefaultState: true
+    ##Should the following messages be enabled?
+    SwapServerMessageEnabled: true
+    JoinNetworkMessageEnabled: true
+    LeaveNetworkMessageEnabled: true
+    ##Should other players with the bungeejoinmessages.silent permission be notified of players moving silently?
+    NotifyAdminsOnSilentMove: true
