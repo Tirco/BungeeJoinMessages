@@ -12,8 +12,9 @@ Messages:
     LeaveNetworkMessage: "&6%player% &6has disconnected from the network!"
     ##Not yet implemented.
     ##FirstTimeConnectedMessage: "&6%player% has connectet to the network for the first time!"
+##New in v.1.3
 Settings:
-    ##Should players with the bungeejoinmessages.silent permission be silenced by default? It will be set to this for all players after a reboot.
+    ##Should players with the bungeejoinmessages.silent permission be silenced by default? It will be set to this for all players after a reboot. They can toggle it for themselves with the /fakemessage toggle command
     SilentJoinDefaultState: true
     ##Should the following messages be enabled?
     SwapServerMessageEnabled: true
