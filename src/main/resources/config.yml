@@ -13,7 +13,7 @@ Messages:
     ##Not yet implemented.
     ##FirstTimeConnectedMessage: "&6%player% has connectet to the network for the first time!"
 Settings:
-    ##Should players with the bungeejoinmessages.silent permission be silenced by default?
+    ##Should players with the bungeejoinmessages.silent permission be silenced by default? It will be set to this for all players after a reboot.
     SilentJoinDefaultState: true
     ##Should the following messages be enabled?
     SwapServerMessageEnabled: true
