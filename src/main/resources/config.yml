@@ -1,0 +1,18 @@
+##Set server names
+Servers:
+    lobby: "&9Lobby"
+    i-age: "&3Industrial Age"
+    d-age: "&cDark Age"
+    c-age: "&9Creative Age"
+    s-age: "&6Skyblock Age"
+    t-age: "&2Towny Age"
+    mining: "&9TownyMining Age"
+    staff: "&4Staff Server"
+    ???: "&7Unknown Server"
+Messages:
+    ##Syntax: %player%,%to%,%from%
+    SwapServerMessage: "&6&l%player%&r  &7[%from%&7] -> [%to%&7]"
+    JoinNetworkMessage: "&6%player% &6has connected to the network!"
+    LeaveNetworkMessage: "&6%player% &6has disconnected from the network!"
+    ##Not yet implemented.
+    FirstTimeConnectedMessage: "&6%player% has connectet to the network for the first time!"

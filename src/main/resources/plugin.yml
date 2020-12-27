@@ -7,9 +7,15 @@ website: ${url}
 main: ${mainClass}
 
 commands:
-    example:
-        description: An example command
-        permission: spigotplugin.example
+    fakemessage:
+        description: Send a fake join or leave message from bungee
+        permission: bungeejoinmessage.fakemessage
         usage: /<command>
-
-permissions: {}
+        aliases: [fm]
+permissions:
+    bungejoinmessages.fakemessage:
+        description: "Allows the use of the fakemessage command"
+        default: op
+    bungeejoinmessages.silent:
+        description: "lets you join the server without notifications."
+        default: false
