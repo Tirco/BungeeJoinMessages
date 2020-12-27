@@ -51,8 +51,7 @@ public class Storage {
 		return LeaveNetworkMessageEnabled;
 	}
 	public boolean notifyAdminsOnSilentMove() {
-		// TODO Auto-generated method stub
-		return false;
+		return NotifyAdminsOnSilentMove;
 	}
 	
 	public boolean getAdminMessageState(ProxiedPlayer p) {
@@ -67,6 +66,10 @@ public class Storage {
 		} else {
 			return false; //Is not silent by default as they don't have silent perm..
 		}
+	}
+	
+	public void setAdminMessageState(ProxiedPlayer player, Boolean state) {
+		messageState.put(player, state);
 	}
 	
 	public Boolean isConnected(ProxiedPlayer p) {
@@ -106,6 +109,8 @@ public class Storage {
 		previousServer.remove(player);
 		
 	}
+
+
 
 
 	

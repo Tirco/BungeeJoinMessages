@@ -10,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import tv.tirco.bungeejoin.BungeeJoinMessages.Storage;
 import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class FakeCommand extends Command implements TabExecutor{
@@ -73,7 +74,20 @@ public class FakeCommand extends Command implements TabExecutor{
                 		return;
             		}
             	} else if(args[0].equalsIgnoreCase("toggle")) {
-            		
+            		String msg = "";
+            		if(!player.hasPermission("bungeejoinmessages.silent")){
+            			msg = "&cYou do not have the permission to join the server silently.";
+            			TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg));
+                    	player.sendMessage(message);
+                    	return;
+            		} else {
+            			Boolean state = !Storage.getInstance().getAdminMessageState(player);
+            			msg = "&eYour SilentMode has now been set to &6" + state;
+            			TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg));
+                    	player.sendMessage(message);
+            			Storage.getInstance().setAdminMessageState(player,state);
+            			return;
+            		}
             	}
             }
         }
