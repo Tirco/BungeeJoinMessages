@@ -11,10 +11,18 @@ commands:
         description: Send a fake join or leave message from bungee
         permission: bungeejoinmessage.fakemessage
         usage: /<command>
-        aliases: [fm]
+        aliases: [fmr]
+    bungeejoinreload:
+        description: reloads the configuration file
+        permission: bungeejoinmessage.reload
+        usage: /<command>
+        aliases: [bjoinreload]
 permissions:
     bungejoinmessages.fakemessage:
         description: "Allows the use of the fakemessage command"
+        default: op
+    bungejoinmessages.reload:
+        description: "Allows the use of the reload command"
         default: op
     bungeejoinmessages.silent:
         description: "lets you join the server without notifications."

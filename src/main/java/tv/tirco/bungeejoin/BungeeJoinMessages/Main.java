@@ -12,9 +12,21 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import tv.tirco.bungeejoin.Listener.PlayerListener;
 import tv.tirco.bungeejoin.commands.FakeCommand;
+import tv.tirco.bungeejoin.commands.ReloadCommand;
 import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class Main extends Plugin {
+	
+	//TODO
+	/*
+	 * - Config option: Always displayJoinMessage for admins
+	 * - Config option: Always displayLeaveMessage for admins
+	 * - Config options to enable the different messages.
+	 * - Make fakeswitch command auto use current servers.
+	 * - Make arguments have shorter versions: fakeswitch -> fs - Fakejoin -> fj - Fakequit - fq
+	 * - Admin toggle options.
+	 * - List of all registered UUIDs to see if a player is new.
+	 */
 	
 	private static Main instance;
     //private File file;
@@ -36,6 +48,7 @@ public class Main extends Plugin {
 		getProxy().getPluginManager().registerListener(this, new PlayerListener());
 		
 		ProxyServer.getInstance().getPluginManager().registerCommand(this, new FakeCommand());
+		ProxyServer.getInstance().getPluginManager().registerCommand(this, new ReloadCommand());
 		getLogger().info("has loaded!");
     }
     
@@ -51,6 +64,7 @@ public class Main extends Plugin {
                   }
               }
               configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+              ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, file);
           } catch (IOException e) {
               e.printStackTrace();
           }
@@ -77,5 +91,11 @@ public class Main extends Plugin {
 
 	public Plugin getPlugin() {
 		return mainPlugin;
+	}
+
+	
+	public void reloadConfig() {
+		loadConfig();
+		MessageHandler.getInstance().setupConfigMessages();
 	}
 }

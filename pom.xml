@@ -3,7 +3,7 @@
     <groupId>tv.tirco.bungeejoin</groupId>
     <artifactId>BungeeJoinMessages</artifactId>
     <!-- Version is used in plugin.yml -->
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <!-- Plugin Information -->
