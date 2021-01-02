@@ -84,18 +84,22 @@ public class MessageHandler {
 		}
 		return null;
 	}
-	public String getServerPlayerCount(ProxiedPlayer player) {
-		return getServerPlayerCount(player.getServer().getInfo());
+	public String getServerPlayerCount(ProxiedPlayer player, boolean leaving) {
+		return getServerPlayerCount(player.getServer().getInfo(), leaving);
 	}
 	
-	public String getServerPlayerCount(String serverName) {
-		return getServerPlayerCount(Main.getInstance().getProxy().getServers().get(serverName));
+	public String getServerPlayerCount(String serverName, boolean leaving) {
+		return getServerPlayerCount(Main.getInstance().getProxy().getServers().get(serverName), leaving);
 	}
 	
-	public String getServerPlayerCount(ServerInfo serverInfo) {
+	public String getServerPlayerCount(ServerInfo serverInfo, boolean leaving) {
 		String serverPlayerCount = "?";
 		if(serverInfo != null) {
-			serverPlayerCount = String.valueOf(serverInfo.getPlayers().size());
+			int count = serverInfo.getPlayers().size();
+			if(leaving && count > 0) {
+				count += -1;
+			}
+			serverPlayerCount = String.valueOf(count);
 		}
 		return serverPlayerCount;
 	}
@@ -113,10 +117,10 @@ public class MessageHandler {
 		messageFormat = messageFormat.replace("%to%", to);
 		messageFormat = messageFormat.replace("%from%", from);
 		if(messageFormat.contains("%playercount_from%")) {
-			messageFormat = messageFormat.replace("%playercount_from%", getServerPlayerCount(fromName));
+			messageFormat = messageFormat.replace("%playercount_from%", getServerPlayerCount(fromName, true));
 		}
 		if(messageFormat.contains("%playercount_to%")) {
-			messageFormat = messageFormat.replace("%playercount_to%", getServerPlayerCount(toName));
+			messageFormat = messageFormat.replace("%playercount_to%", getServerPlayerCount(toName, false));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
 			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
@@ -129,7 +133,7 @@ public class MessageHandler {
 		String messageFormat = getJoinNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
 		if(messageFormat.contains("%playercount_server%")) {
-			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player.getServer().getInfo()));
+			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player.getServer().getInfo(), false));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
 			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
@@ -139,10 +143,10 @@ public class MessageHandler {
 	}
 	
 	public String formatQuitMessage(ProxiedPlayer player) {
-		String messageFormat = getJoinNetworkMessage();
+		String messageFormat = getLeaveNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
 		if(messageFormat.contains("%playercount_server%")) {
-			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player.getServer().getInfo()));
+			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player.getServer().getInfo(), true));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
 			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
