@@ -147,7 +147,7 @@ public class MessageHandler {
 			messageFormat = messageFormat.replace("%playercount_to%", getServerPlayerCount(toName, false, player));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
-			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
+			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount(player, false));
 		}
 		
 		return messageFormat;
@@ -160,7 +160,7 @@ public class MessageHandler {
 			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, false));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
-			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
+			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount(player, false));
 		}
 		
 		return messageFormat;
@@ -173,7 +173,7 @@ public class MessageHandler {
 			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, true));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
-			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
+			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount(player, true));
 		}
 		
 		return messageFormat;
