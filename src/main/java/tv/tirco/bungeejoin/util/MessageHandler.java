@@ -114,8 +114,22 @@ public class MessageHandler {
 		return serverPlayerCount;
 	}
 	
-	public String getNetworkPlayerCount() {
-		return String.valueOf(Main.getInstance().getProxy().getPlayers().size());
+	public String getNetworkPlayerCount(ProxiedPlayer player, Boolean leaving) {
+		Collection<ProxiedPlayer> players = Main.getInstance().getProxy().getPlayers();
+		if(leaving && player != null) {
+			if(players.contains(player)) {
+				return String.valueOf(players.size() - 1);
+			} else {
+				return String.valueOf(players.size());
+			}
+		} else if (player != null){
+			if(players.contains(player)) {
+				return String.valueOf(players.size());
+			} else {
+				return String.valueOf(players.size() + 1);
+			}
+		}
+		return String.valueOf(players.size());
 	}
 
 	public String formatSwitchMessage(ProxiedPlayer player, String fromName, String toName) {
