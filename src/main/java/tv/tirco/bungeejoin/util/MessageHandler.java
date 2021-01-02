@@ -156,6 +156,10 @@ public class MessageHandler {
 	public String formatJoinMessage(ProxiedPlayer player) {
 		String messageFormat = getJoinNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
+		if(messageFormat.contains("%server_name%")) {
+			ServerInfo server = player.getServer().getInfo();
+			messageFormat = messageFormat.replace("%server_name%", getServerName(server.getName()));
+		}
 		if(messageFormat.contains("%playercount_server%")) {
 			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, false));
 		}
@@ -169,6 +173,10 @@ public class MessageHandler {
 	public String formatQuitMessage(ProxiedPlayer player) {
 		String messageFormat = getLeaveNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
+		if(messageFormat.contains("%server_name%")) {
+			ServerInfo server = player.getServer().getInfo();
+			messageFormat = messageFormat.replace("%server_name%", getServerName(server.getName()));
+		}
 		if(messageFormat.contains("%playercount_server%")) {
 			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, true));
 		}
