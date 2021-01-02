@@ -1,5 +1,6 @@
 package tv.tirco.bungeejoin.util;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import net.md_5.bungee.api.ProxyServer;
@@ -85,19 +86,28 @@ public class MessageHandler {
 		return null;
 	}
 	public String getServerPlayerCount(ProxiedPlayer player, boolean leaving) {
-		return getServerPlayerCount(player.getServer().getInfo(), leaving);
+		return getServerPlayerCount(player.getServer().getInfo(), leaving, player);
 	}
 	
-	public String getServerPlayerCount(String serverName, boolean leaving) {
-		return getServerPlayerCount(Main.getInstance().getProxy().getServers().get(serverName), leaving);
+	public String getServerPlayerCount(String serverName, boolean leaving, ProxiedPlayer player) {
+		return getServerPlayerCount(Main.getInstance().getProxy().getServers().get(serverName), leaving, player);
 	}
 	
-	public String getServerPlayerCount(ServerInfo serverInfo, boolean leaving) {
+	public String getServerPlayerCount(ServerInfo serverInfo, boolean leaving, ProxiedPlayer player) {
 		String serverPlayerCount = "?";
 		if(serverInfo != null) {
-			int count = serverInfo.getPlayers().size();
-			if(leaving && count > 0) {
-				count += -1;
+			int count = 0;
+			Collection<ProxiedPlayer> players = serverInfo.getPlayers();
+			if(leaving && player != null) {
+				if(players.contains(player)) {
+					count = players.size() - 1;
+				}
+			} else if(player != null){
+				if(!players.contains(player)) {
+					count = players.size() + 1;
+				} else {
+					count = players.size();
+				}
 			}
 			serverPlayerCount = String.valueOf(count);
 		}
@@ -117,10 +127,10 @@ public class MessageHandler {
 		messageFormat = messageFormat.replace("%to%", to);
 		messageFormat = messageFormat.replace("%from%", from);
 		if(messageFormat.contains("%playercount_from%")) {
-			messageFormat = messageFormat.replace("%playercount_from%", getServerPlayerCount(fromName, true));
+			messageFormat = messageFormat.replace("%playercount_from%", getServerPlayerCount(fromName, true, player));
 		}
 		if(messageFormat.contains("%playercount_to%")) {
-			messageFormat = messageFormat.replace("%playercount_to%", getServerPlayerCount(toName, false));
+			messageFormat = messageFormat.replace("%playercount_to%", getServerPlayerCount(toName, false, player));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
 			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
@@ -133,7 +143,7 @@ public class MessageHandler {
 		String messageFormat = getJoinNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
 		if(messageFormat.contains("%playercount_server%")) {
-			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player.getServer().getInfo(), false));
+			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, false));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
 			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
@@ -146,7 +156,7 @@ public class MessageHandler {
 		String messageFormat = getLeaveNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
 		if(messageFormat.contains("%playercount_server%")) {
-			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player.getServer().getInfo(), true));
+			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, true));
 		}
 		if(messageFormat.contains("%playercount_network%")) {
 			messageFormat = messageFormat.replace("%playercount_network%", getNetworkPlayerCount());
