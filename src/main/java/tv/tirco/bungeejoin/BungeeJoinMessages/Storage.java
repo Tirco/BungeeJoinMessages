@@ -12,7 +12,7 @@ public class Storage {
 	private static Storage instance;
 	
 	HashMap<ProxiedPlayer,String> previousServer;
-	HashMap<ProxiedPlayer,Boolean> messageState;
+	HashMap<UUID,Boolean> messageState;
 	List<UUID> onlinePlayers;
 	
 	boolean SwapServerMessageEnabled = true;
@@ -30,7 +30,7 @@ public class Storage {
 	
 	public Storage() {
 		this.previousServer = new HashMap<ProxiedPlayer,String>();
-		this.messageState = new HashMap<ProxiedPlayer,Boolean>();
+		this.messageState = new HashMap<UUID,Boolean>();
 		this.onlinePlayers = new ArrayList<UUID>();
 	}
 	
@@ -56,11 +56,11 @@ public class Storage {
 	
 	public boolean getAdminMessageState(ProxiedPlayer p) {
 		if(p.hasPermission("bungeejoinmessages.silent")) {
-			if(messageState.containsKey(p)) {
-				return messageState.get(p);
+			if(messageState.containsKey(p.getUniqueId())) {
+				return messageState.get(p.getUniqueId());
 			} else {
 				boolean state = Main.getInstance().getConfig().getBoolean("Settings.SilentJoinDefaultState", true);
-				messageState.put(p, state);
+				messageState.put(p.getUniqueId(), state);
 				return state;
 			}
 		} else {
@@ -69,7 +69,7 @@ public class Storage {
 	}
 	
 	public void setAdminMessageState(ProxiedPlayer player, Boolean state) {
-		messageState.put(player, state);
+		messageState.put(player.getUniqueId(), state);
 	}
 	
 	public Boolean isConnected(ProxiedPlayer p) {

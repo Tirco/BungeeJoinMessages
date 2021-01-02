@@ -53,20 +53,17 @@ public class PlayerListener implements Listener{
 		ProxiedPlayer player = e.getPlayer();
 		Server server = e.getServer();
 
-		String to = MessageHandler.getInstance().getServerName(server.getInfo().getName());
+		String to = server.getInfo().getName();
 		String from = "???";
 		if(Storage.getInstance().isElsewhere(player)) {
-			from = MessageHandler.getInstance().getServerName(Storage.getInstance().getFrom(player));
+			from = Storage.getInstance().getFrom(player);
 		} else {
 			return; //Event was not a To-From event, so we send no message.
 		}
 		
 		if(Storage.getInstance().isSwapServerMessageEnabled()) {
 			
-    		String message = MessageHandler.getInstance().getSwapServerMessage();
-    		message = message.replace("%player%", player.getName());
-    		message = message.replace("%to%", to);
-    		message = message.replace("%from%", from);
+    		String message = MessageHandler.getInstance().formatSwitchMessage(player, from, to);
 			
     		//Silent
 	    	if(Storage.getInstance().getAdminMessageState(player)) {
@@ -104,8 +101,7 @@ public class PlayerListener implements Listener{
 		 public void run()
 		 {
 			 if(player.isConnected()) {
-		    		String message = MessageHandler.getInstance().getJoinNetworkMessage();
-		    		message = message.replace("%player%", player.getName());
+		    		String message = MessageHandler.getInstance().formatJoinMessage(player);
 		    		
 		    		//Silent
 			    	if(Storage.getInstance().getAdminMessageState(player)) {
@@ -160,8 +156,7 @@ public class PlayerListener implements Listener{
     		return;
     	}
     	
-    	String message = MessageHandler.getInstance().getLeaveNetworkMessage();
-		message = message.replace("%player%", player.getName());
+    	String message = MessageHandler.getInstance().formatQuitMessage(player);
 		
 		//Silent
     	if(Storage.getInstance().getAdminMessageState(player)) {

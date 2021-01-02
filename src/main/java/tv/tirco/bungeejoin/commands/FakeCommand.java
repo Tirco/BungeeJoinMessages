@@ -7,9 +7,13 @@ import com.google.common.collect.ImmutableList;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import net.md_5.bungee.api.scheduler.GroupedThreadFactory.BungeeGroup;
+import tv.tirco.bungeejoin.BungeeJoinMessages.Main;
 import tv.tirco.bungeejoin.BungeeJoinMessages.Storage;
 import tv.tirco.bungeejoin.util.MessageHandler;
 
@@ -37,14 +41,12 @@ public class FakeCommand extends Command implements TabExecutor{
             	return;
             } else {
             	if(args[0].equalsIgnoreCase("fakejoin") || args[0].equalsIgnoreCase("fj") ) {
-            		String message = MessageHandler.getInstance().getJoinNetworkMessage();
-            		message = message.replace("%player%", player.getName());
+            		String message = MessageHandler.getInstance().formatJoinMessage(player);
             		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
             		return;
             		
             	} else if(args[0].equalsIgnoreCase("fakequit")  || args[0].equalsIgnoreCase("fq")) {
-            		String message = MessageHandler.getInstance().getLeaveNetworkMessage();
-            		message = message.replace("%player%", player.getName());
+            		String message = MessageHandler.getInstance().formatQuitMessage(player);
             		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
             		return;
             		
@@ -63,13 +65,8 @@ public class FakeCommand extends Command implements TabExecutor{
             			String fromName = args[1];
             			String toName = args[2];
             			
-            			String from = MessageHandler.getInstance().getServerName(fromName);
-            			String to = MessageHandler.getInstance().getServerName(toName);
-            			
-                		String message = MessageHandler.getInstance().getSwapServerMessage();
-                		message = message.replace("%player%", player.getName());
-                		message = message.replace("%to%", to);
-                		message = message.replace("%from%", from);
+            			String message = MessageHandler.getInstance().formatSwitchMessage(player, fromName, toName);
+
                 		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
                 		return;
             		}
@@ -95,14 +92,20 @@ public class FakeCommand extends Command implements TabExecutor{
 
 	@Override
 	public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-		List<String> commandArguments = ImmutableList.of("fakejoin","fakequit","fakeswitch","fj","fq","fs");
+		List<String> commandArguments = ImmutableList.of("fakejoin","fakequit","fakeswitch","fj","fq","fs","toggle");
 		switch (args.length) {
 		case 1:
 			return commandArguments;
-		case 2: return MessageHandler.getInstance().getServerNames();
-		case 3: return MessageHandler.getInstance().getServerNames();
+		case 2: 
+			if(args[0].equalsIgnoreCase("fs") || args[0].equalsIgnoreCase("fakeswitch")) {
+				return MessageHandler.getInstance().getServerNames();
+			}
+		case 3:
+			if(args[0].equalsIgnoreCase("fs") || args[0].equalsIgnoreCase("fakeswitch")) {
+				return MessageHandler.getInstance().getServerNames();
+			}
 		default:
-			return null;
+			return ImmutableList.of("No more arguments needed.");
     	}
 	}
 
