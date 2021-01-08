@@ -11,7 +11,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 import tv.tirco.bungeejoin.BungeeJoinMessages.Storage;
-import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class ToggleJoinCommand extends Command implements TabExecutor{
 

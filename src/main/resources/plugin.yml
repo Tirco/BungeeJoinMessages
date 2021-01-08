@@ -17,12 +17,20 @@ commands:
         permission: bungeejoinmessage.reload
         usage: /<command>
         aliases: [bjoinreload]
+    togglejoinmessage:
+        description: Toggles incomming join messages.
+        permission: bungeejoinmessages.togglemessage
+        usage: /<command>
+        aliases: [bjointoggle]
 permissions:
     bungejoinmessages.fakemessage:
-        description: "Allows the use of the fakemessage command"
+        description: "Allows the use of the fakemessage command."
         default: op
     bungejoinmessages.reload:
-        description: "Allows the use of the reload command"
+        description: "Allows the use of the reload command."
+        default: op
+    bungejoinmessages.togglejoinmessage:
+        description: "Allows the use of the togglemessage command."
         default: op
     bungeejoinmessages.silent:
         description: "lets you join the server without notifications."
