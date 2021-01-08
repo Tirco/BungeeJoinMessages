@@ -14,6 +14,9 @@ public class Storage {
 	HashMap<ProxiedPlayer,String> previousServer;
 	HashMap<UUID,Boolean> messageState;
 	List<UUID> onlinePlayers;
+	List<UUID> noJoinMessage;
+	List<UUID> noLeaveMessage;
+	List<UUID> noSwitchMessage;
 	
 	boolean SwapServerMessageEnabled = true;
 	boolean JoinNetworkMessageEnabled = true;
@@ -32,6 +35,9 @@ public class Storage {
 		this.previousServer = new HashMap<ProxiedPlayer,String>();
 		this.messageState = new HashMap<UUID,Boolean>();
 		this.onlinePlayers = new ArrayList<UUID>();
+		this.noJoinMessage = new ArrayList<UUID>();
+		this.noLeaveMessage = new ArrayList<UUID>();
+		this.noSwitchMessage = new ArrayList<UUID>();
 	}
 	
 	public void setUpDefaultValuesFromConfig() {
@@ -109,9 +115,67 @@ public class Storage {
 		previousServer.remove(player);
 		
 	}
-
-
-
-
 	
+	private void setJoinState(UUID id, boolean state) {
+		if(state) {
+			noJoinMessage.remove(id);
+		} else {
+			if(!noJoinMessage.contains(id)) { //Prevent duplicates.
+				noJoinMessage.add(id);
+			}
+		}
+	}
+	private void setLeaveState(UUID id, boolean state) {
+		if(state) {
+			noLeaveMessage.remove(id);
+		} else {
+			if(!noLeaveMessage.contains(id)) { //Prevent duplicates.
+				noLeaveMessage.add(id);
+			}
+		}
+	}
+	private void setSwitchState(UUID id, boolean state) {
+		if(state) {
+			noSwitchMessage.remove(id);
+		} else {
+			if(!noSwitchMessage.contains(id)) { //Prevent duplicates.
+				noSwitchMessage.add(id);
+			}
+		}
+	}
+	
+	public void setSendMessageState(String list, UUID id, boolean state) {
+		switch(list) {
+			case "all":
+				setSwitchState(id, state);
+				setJoinState(id, state);
+				setLeaveState(id, state);
+				return;
+			case "join":
+				setJoinState(id, state);
+				return;
+			case "leave":
+			case "quit":
+				setLeaveState(id, state);
+				return;
+			case "switch":
+				setSwitchState(id, state);
+				return;
+			default:
+				return;
+		}
+	}
+
+	public List<UUID> getIgnorePlayers(String type) {
+		switch(type) {
+		case "join":
+			return noJoinMessage;
+		case "leave":
+			return noLeaveMessage;
+		case "switch":
+			return noSwitchMessage;
+		default:
+			return new ArrayList<UUID>();
+		}
+	}
 }

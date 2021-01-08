@@ -38,12 +38,12 @@ public class FakeCommand extends Command implements TabExecutor{
             } else {
             	if(args[0].equalsIgnoreCase("fakejoin") || args[0].equalsIgnoreCase("fj") ) {
             		String message = MessageHandler.getInstance().formatJoinMessage(player);
-            		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+            		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "join");
             		return;
             		
             	} else if(args[0].equalsIgnoreCase("fakequit")  || args[0].equalsIgnoreCase("fq")) {
             		String message = MessageHandler.getInstance().formatQuitMessage(player);
-            		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+            		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "leave");
             		return;
             		
             	} else if(args[0].equalsIgnoreCase("fakeswitch")  || args[0].equalsIgnoreCase("fs")) {
@@ -63,7 +63,7 @@ public class FakeCommand extends Command implements TabExecutor{
             			
             			String message = MessageHandler.getInstance().formatSwitchMessage(player, fromName, toName);
 
-                		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+                		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "switch");
                 		return;
             		}
             	} else if(args[0].equalsIgnoreCase("toggle")) {

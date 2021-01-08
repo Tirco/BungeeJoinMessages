@@ -6,33 +6,26 @@ Servers:
     staff: "&4Staff Server"
     ???: "&7Unknown Server"
 Messages:
-    ##Syntax: %player%,%to%,%from%
     SwapServerMessage: "&6&l%player%&r  &7[%from%&7] (%playercount_from%) -> [%to%&7] (%playercount_to%)"
-##New in v.1.4 - Not needed for the update, it just tells you the arguments.
-    SwapServerArgumentsComment: 
-        - 'Note: Changing these will have no effect. You can delete the entire SwapServerArgumentsComment if you want.'
-        - '%player% (The playes name)'
-        - '%to% the server they are heading to'
-        - '%from% the server they are coming from'
-        - '%playercount_from% The amount of players where they are coming from.' 
-        - '%playercount_to% The amount of players where they are heading to.' 
-        - '%playercount_network% The amount of players on the network.'
+##New in v.1.4
+        ##- '%player% (The playes name)'
+        ##- '%to% the server they are heading to'
+        ##- '%from% the server they are coming from'
+        ##- '%playercount_from% The amount of players where they are coming from.' 
+        ##- '%playercount_to% The amount of players where they are heading to.' 
+        ##- '%playercount_network% The amount of players on the network.'
     JoinNetworkMessage: "&6%player% &6has connected to the network!"
-##New in v.1.4 - Not needed for the update, it just tells you the arguments.
-    JoinNetworkArgumentsComment:
-        - 'Note: Changing these will have no effect. You can delete the entire JoinNetworkArgumentsComment if you want.'
-        - '%player%: (The playes name)'
-        - '%server_name%: The name of the server they connected to.
-        - '%playercount_server%: The playercount of the server they are on.'
-        - '%playercount_network%: The playercount of the network.'
+##New in v.1.4
+        ##- '%player%: (The playes name)'
+        ##- '%server_name%: The name of the server they connected to.'
+        ##- '%playercount_server%: The playercount of the server they are on.'
+        ##- '%playercount_network%: The playercount of the network.'
     LeaveNetworkMessage: "&6%player% &6has disconnected from the network!"
-##New in v.1.4 - Not needed for the update, it just tells you the arguments.
-    LeaveNetworkArgumentsComment:
-        - 'Note: Changing these will have no effect. You can delete the entire LeaveNetworkArgumentsComment if you want.'
-        - '%player%: (The playes name)'
-        - '%server_name%: The name of the server they disconnected from.
-        - '%playercount_server%: The playercount of the server they were on.'
-        - '%playercount_network%: The playercount of the network.'
+##New in v.1.4 
+        ##- '%player%: (The playes name)'
+        ##- '%server_name%: The name of the server they disconnected from.'
+        ##- '%playercount_server%: The playercount of the server they were on.'
+        ##- '%playercount_network%: The playercount of the network.'
     ##Not yet implemented.
     ##FirstTimeConnectedMessage: "&6%player% has connectet to the network for the first time!"
 ##New in v.1.3

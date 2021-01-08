@@ -79,7 +79,7 @@ public class PlayerListener implements Listener{
 	    		}
 	    	//Not silent
 	    	} else {
-	    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+	    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message),"switch");
 
 	    	}
 		}
@@ -130,7 +130,7 @@ public class PlayerListener implements Listener{
 			    		}
 			    	//Not silent
 			    	} else {
-			    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+			    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "join");
 
 			    	}
 			    	Storage.getInstance().setConnected(player, true);
@@ -173,7 +173,7 @@ public class PlayerListener implements Listener{
     		}
     	//Not silent
     	} else {
-    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message),"leave");
 
     	}
     	

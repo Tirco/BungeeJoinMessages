@@ -2,13 +2,15 @@ package tv.tirco.bungeejoin.util;
 
 import java.util.Collection;
 import java.util.HashMap;
-
+import java.util.List;
+import java.util.UUID;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.config.Configuration;
 import tv.tirco.bungeejoin.BungeeJoinMessages.Main;
+import tv.tirco.bungeejoin.BungeeJoinMessages.Storage;
 
 public class MessageHandler {
 
@@ -60,10 +62,21 @@ public class MessageHandler {
 	}
 
 
-	public void broadcastMessage(String text) {
+	public void broadcastMessage(String text, String type) {
 		TextComponent msg = new TextComponent();
-				msg.setText(text);
+		msg.setText(text);
 				//You could also use a StringBuilder here to get the arguments.
+		
+		List<UUID> ignorePlayers = Storage.getInstance().getIgnorePlayers(type);
+		Main.getInstance().getLogger().info(text);
+		for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+			if(ignorePlayers.contains(player.getUniqueId())) {
+				continue;
+			} else {
+				player.sendMessage(msg);
+			}
+		}
+		
 				ProxyServer.getInstance().broadcast(msg);
 	}
 
