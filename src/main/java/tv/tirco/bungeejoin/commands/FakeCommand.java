@@ -10,7 +10,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import tv.tirco.bungeejoin.BungeeJoinMessages.Main;
 import tv.tirco.bungeejoin.BungeeJoinMessages.Storage;
+import tv.tirco.bungeejoin.util.HexChat;
 import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class FakeCommand extends Command implements TabExecutor{
@@ -27,33 +29,33 @@ public class FakeCommand extends Command implements TabExecutor{
             	return;
             }
             if(args.length < 1) {
-            	String msg =             			
+            	String msg =  Main.getInstance().getConfig().getString("Messages.Commands.Fakemessage.NoArgument",     			
             			"&6Arguments:\n"
             			+ "- &cfakejoin\n"
             			+ "- &cfakequit\n"
-            			+ "- &cfakeswitch&6 (to) (from)\n";
+            			+ "- &cfakeswitch&6 (to) (from)\n");
             	TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg));
             	player.sendMessage(message);
             	return;
             } else {
             	if(args[0].equalsIgnoreCase("fakejoin") || args[0].equalsIgnoreCase("fj") ) {
             		String message = MessageHandler.getInstance().formatJoinMessage(player);
-            		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "join");
+            		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "join");
             		return;
             		
             	} else if(args[0].equalsIgnoreCase("fakequit")  || args[0].equalsIgnoreCase("fq")) {
             		String message = MessageHandler.getInstance().formatQuitMessage(player);
-            		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "leave");
+            		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "leave");
             		return;
             		
             	} else if(args[0].equalsIgnoreCase("fakeswitch")  || args[0].equalsIgnoreCase("fs")) {
             		if(args.length < 3) {
-                    	String msg =             			
+                    	String msg =  Main.getInstance().getConfig().getString("Messages.Commands.Fakemessage.FakeSwitchNoArgument",     					
                     			"&6Arguments:\n"
                     			+ "- &cfakejoin\n"
                     			+ "- &cfakequit\n"
                     			+ "- &cfakeswitch&6 (to) (from)\n"
-                    			+ "&4Error: Please specify &cTO&4 and &cFROM\n";
+                    			+ "&4Error: Please specify &cTO&4 and &cFROM");
                     	TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg));
                     	player.sendMessage(message);
                     	return;
@@ -63,20 +65,23 @@ public class FakeCommand extends Command implements TabExecutor{
             			
             			String message = MessageHandler.getInstance().formatSwitchMessage(player, fromName, toName);
 
-                		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "switch");
+                		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "switch");
                 		return;
             		}
             	} else if(args[0].equalsIgnoreCase("toggle")) {
             		String msg = "";
             		if(!player.hasPermission("bungeejoinmessages.silent")){
-            			msg = "&cYou do not have the permission to join the server silently.";
-            			TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg));
+            			msg = Main.getInstance().getConfig().getString("Messages.Commands.Fakemessage.ToggleSilentNoPerm", 
+            					"&cYou do not have the permission to join the server silently.");
+            			TextComponent message = new TextComponent(HexChat.translateHexCodes( msg));
                     	player.sendMessage(message);
                     	return;
             		} else {
             			Boolean state = !Storage.getInstance().getAdminMessageState(player);
-            			msg = "&eYour SilentMode has now been set to &6" + state;
-            			TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg));
+            			msg = Main.getInstance().getConfig().getString("Messages.Commands.Fakemessage.ToggleSilent", 
+            					"&eYour SilentMode has now been set to &6<state>");
+            			msg = msg.replace("<state>", state+"");
+            			TextComponent message = new TextComponent(HexChat.translateHexCodes( msg));
                     	player.sendMessage(message);
             			Storage.getInstance().setAdminMessageState(player,state);
             			return;
@@ -101,7 +106,7 @@ public class FakeCommand extends Command implements TabExecutor{
 				return MessageHandler.getInstance().getServerNames();
 			}
 		default:
-			return ImmutableList.of("No more arguments needed.");
+			return ImmutableList.of(Main.getInstance().getConfig().getString("Messages.Commands.NoMoreArgumentsNeeded","No more arguments needed."));
     	}
 	}
 

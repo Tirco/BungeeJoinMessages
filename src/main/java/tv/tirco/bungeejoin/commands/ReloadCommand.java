@@ -4,6 +4,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import tv.tirco.bungeejoin.BungeeJoinMessages.Main;
+import tv.tirco.bungeejoin.util.HexChat;
 
 public class ReloadCommand extends Command {
     public ReloadCommand() {
@@ -14,7 +15,9 @@ public class ReloadCommand extends Command {
     public void execute(CommandSender sender, String[] args) {
         if(sender.hasPermission("bungeejoinmessages.reload")) {
             Main.getInstance().reloadConfig();
-            sender.sendMessage(new TextComponent("Config reloaded!"));
+			String msg = Main.getInstance().getConfig().getString("Messages.Commands.Reload.ConfigReloaded", 
+					"Config Reloaded!");
+            sender.sendMessage( new TextComponent(HexChat.translateHexCodes(msg)));
         }
     }
 }

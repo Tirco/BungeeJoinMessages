@@ -76,8 +76,7 @@ public class MessageHandler {
 				player.sendMessage(msg);
 			}
 		}
-		
-				ProxyServer.getInstance().broadcast(msg);
+		//ProxyServer.getInstance().broadcast(msg);
 	}
 
 	public String getJoinNetworkMessage() {
@@ -151,6 +150,7 @@ public class MessageHandler {
 		
 		String messageFormat = getSwapServerMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
+		messageFormat = messageFormat.replace("%displayname%", player.getDisplayName());
 		messageFormat = messageFormat.replace("%to%", to);
 		messageFormat = messageFormat.replace("%from%", from);
 		if(messageFormat.contains("%playercount_from%")) {
@@ -169,6 +169,7 @@ public class MessageHandler {
 	public String formatJoinMessage(ProxiedPlayer player) {
 		String messageFormat = getJoinNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
+		messageFormat = messageFormat.replace("%displayname%", player.getDisplayName());
 		if(messageFormat.contains("%server_name%")) {
 			ServerInfo server = player.getServer().getInfo();
 			messageFormat = messageFormat.replace("%server_name%", getServerName(server.getName()));
@@ -186,6 +187,7 @@ public class MessageHandler {
 	public String formatQuitMessage(ProxiedPlayer player) {
 		String messageFormat = getLeaveNetworkMessage();
 		messageFormat = messageFormat.replace("%player%", player.getName());
+		messageFormat = messageFormat.replace("%displayname%", player.getDisplayName());
 		if(messageFormat.contains("%server_name%")) {
 			ServerInfo server = player.getServer().getInfo();
 			messageFormat = messageFormat.replace("%server_name%", getServerName(server.getName()));

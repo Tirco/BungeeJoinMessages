@@ -2,7 +2,6 @@ package tv.tirco.bungeejoin.Listener;
 
 import java.util.concurrent.TimeUnit;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -16,9 +15,13 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import tv.tirco.bungeejoin.BungeeJoinMessages.Main;
 import tv.tirco.bungeejoin.BungeeJoinMessages.Storage;
+import tv.tirco.bungeejoin.util.HexChat;
 import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class PlayerListener implements Listener{
+	
+	String silent = Main.getInstance().getConfig().getString("Messages.Misc.SilentPrefix", 
+			"&7[Silent] ");
 
 	@EventHandler
 	public void prePlayerSwitchServer(ServerConnectEvent e) {
@@ -67,10 +70,9 @@ public class PlayerListener implements Listener{
 			
     		//Silent
 	    	if(Storage.getInstance().getAdminMessageState(player)) {
-	    		Main.getInstance().getLogger().info(ChatColor.BLUE + ChatColor.translateAlternateColorCodes('&', 
-	    				"Move Event was silenced. " + player.getName() + ": "+ from + " -> " + to));
+	    		Main.getInstance().SilentEvent("MOVE", player.getName(), from, to);
 	    		if(Storage.getInstance().notifyAdminsOnSilentMove()) {
-	    			TextComponent silentMessage = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&7[Silent] " + message));
+	    			TextComponent silentMessage = new TextComponent(HexChat.translateHexCodes(silent + message));
 	    			for(ProxiedPlayer p : Main.getInstance().getProxy().getPlayers()) {
 	    				if(p.hasPermission("bungeejoinmessages.silent")) {
 	    					p.sendMessage(silentMessage);
@@ -79,7 +81,7 @@ public class PlayerListener implements Listener{
 	    		}
 	    	//Not silent
 	    	} else {
-	    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message),"switch");
+	    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message),"switch");
 
 	    	}
 		}
@@ -107,21 +109,20 @@ public class PlayerListener implements Listener{
 			    	if(Storage.getInstance().getAdminMessageState(player)) {
 			    		//Notify player about the toggle command.
 			    		if(player.hasPermission("bungeejoinmessages.fakemessage")) {
-				    		TextComponent toggleNotif = new TextComponent(
-				    				ChatColor.translateAlternateColorCodes('&', 
+				    		String toggleNotif = Main.getInstance().getConfig().getString("Messages.Commands.Fakemessage.JoinNotification",     					
 				    						"&7[BungeeJoin] You joined the server while silenced.\n"
 				    						+ "&7To have messages automatically enabled for you until\n"
-				    						+ "&7next reboot, use the command &f/fm toggle&7."));
-				    		player.sendMessage(toggleNotif);
+				    						+ "&7next reboot, use the command &f/fm toggle&7.");
+			                player.sendMessage(new TextComponent(HexChat.translateHexCodes(toggleNotif)));
 			    		}
 
 			    		
 			    		
 			    		//Send to console
-			    		Main.getInstance().getLogger().info(ChatColor.GOLD + "Move Event was silenced. " + player.getName() + " Joined the network.");
+			    		Main.getInstance().SilentEvent("JOIN", player.getName());
 			    		//Send to admin players.
 			    		if(Storage.getInstance().notifyAdminsOnSilentMove()) {
-			    			TextComponent silentMessage = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&7[Silent] " + message));
+			    			TextComponent silentMessage = new TextComponent(HexChat.translateHexCodes( silent + message));
 			    			for(ProxiedPlayer p : Main.getInstance().getProxy().getPlayers()) {
 			    				if(p.hasPermission("bungeejoinmessages.silent")) {
 			    					p.sendMessage(silentMessage);
@@ -130,7 +131,7 @@ public class PlayerListener implements Listener{
 			    		}
 			    	//Not silent
 			    	} else {
-			    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message), "join");
+			    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "join");
 
 			    	}
 			    	Storage.getInstance().setConnected(player, true);
@@ -161,10 +162,10 @@ public class PlayerListener implements Listener{
 		//Silent
     	if(Storage.getInstance().getAdminMessageState(player)) {
     		//Send to console
-    		Main.getInstance().getLogger().info(ChatColor.RED + "Move Event was silenced. " + player.getName() + " left the network.");
+    		Main.getInstance().SilentEvent("QUIT", player.getName());
     		//Send to admin players.
     		if(Storage.getInstance().notifyAdminsOnSilentMove()) {
-    			TextComponent silentMessage = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&7[Silent] " + message));
+    			TextComponent silentMessage = new TextComponent(HexChat.translateHexCodes(silent + message));
     			for(ProxiedPlayer p : Main.getInstance().getProxy().getPlayers()) {
     				if(p.hasPermission("bungeejoinmessages.silent")) {
     					p.sendMessage(silentMessage);
@@ -173,7 +174,7 @@ public class PlayerListener implements Listener{
     		}
     	//Not silent
     	} else {
-    		MessageHandler.getInstance().broadcastMessage(ChatColor.translateAlternateColorCodes('&', message),"leave");
+    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes(message),"leave");
 
     	}
     	

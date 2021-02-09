@@ -14,20 +14,45 @@ Messages:
         ##- '%playercount_from% The amount of players where they are coming from.' 
         ##- '%playercount_to% The amount of players where they are heading to.' 
         ##- '%playercount_network% The amount of players on the network.'
-    JoinNetworkMessage: "&6%player% &6has connected to the network!"
+##New in v.1.5.2
+        ##- '%displayname% - The custom name the player has.'
+    JoinNetworkMessage: "&6%displayname% &7(%player%&7) &6has connected to the network!"
 ##New in v.1.4
         ##- '%player%: (The playes name)'
         ##- '%server_name%: The name of the server they connected to.'
         ##- '%playercount_server%: The playercount of the server they are on.'
         ##- '%playercount_network%: The playercount of the network.'
+##New in v.1.5.2
+        ##- '%displayname% - The custom name the player has.'
     LeaveNetworkMessage: "&6%player% &6has disconnected from the network!"
 ##New in v.1.4 
         ##- '%player%: (The playes name)'
         ##- '%server_name%: The name of the server they disconnected from.'
         ##- '%playercount_server%: The playercount of the server they were on.'
         ##- '%playercount_network%: The playercount of the network.'
-    ##Not yet implemented.
-    ##FirstTimeConnectedMessage: "&6%player% has connectet to the network for the first time!"
+##New in v.1.5.2
+        ##- '%displayname% - The custom name the player has, according to bungee.'
+##New in v.1.6.0 Configurable Command Messages!
+    Commands:
+        NoMoreArgumentsNeeded: "No more arguments needed."
+        NoPermission: "&cYou do not have the permission to use this command."
+        Fakemessage:
+            NoArgument: "&6Arguments:\n- &cfakejoin\n- &cfakequit\n- &cfakeswitch&6 (to) (from)\n"
+            FakeSwitchNoArgument:"&6Arguments:\n- &cfakejoin\n- &cfakequit\n- &cfakeswitch&6 (to) (from)\n&4Error: Please specify &cTO&4 and &cFROM\n"
+            ToggleSilentNoPerm: "&cYou do not have the permission to join the server silently."
+            ToggleSilent: "&eYour SilentMode has now been set to &6<state>"
+            JoinNotification: "&7[BungeeJoin] You joined the server while silenced.\n&7To have messages automatically enabled for you until\n&7next reboot, use the command &f/fm toggle&7."
+        ToggleJoin:
+            MissingFirstArgument: "&6Please specify which messages you would like to disable/enable.\n&6Valid arguments are:&f join, leave, switch, all"
+            MissingState: "&6Please specify which state you would like to set the message to.\n&6Valid arguments are: &aon &7/ &coff &6or &atrue &7/ &cfalse&f."
+            Confirmation: "&6Receive messages for &f<mode>&6 has been set to &f<state>\n&6This will last until the network reboots."
+        Reload:
+            ConfigReloaded: "Config Reloaded!"
+    Misc:
+        SilentPrefix: "&7[Silent] "
+        ConsoleSilentMoveEvent: "&1Move Event was silenced. <player> <from> -> <to>"
+        ConsoleSilentJoinEvent: "&6Join Event was silenced. <player> joined the network."
+        ConsoleSilentQuitEvent: "&cQuit Event was silenced. <player> left the network."
 ##New in v.1.3
 Settings:
     ##Should players with the bungeejoinmessages.silent permission be silenced by default? It will be set to this for all players after a reboot. They can toggle it for themselves with the /fakemessage toggle command

@@ -13,6 +13,8 @@ import net.md_5.bungee.config.YamlConfiguration;
 import tv.tirco.bungeejoin.Listener.PlayerListener;
 import tv.tirco.bungeejoin.commands.FakeCommand;
 import tv.tirco.bungeejoin.commands.ReloadCommand;
+import tv.tirco.bungeejoin.commands.ToggleJoinCommand;
+import tv.tirco.bungeejoin.util.HexChat;
 import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class Main extends Plugin {
@@ -50,6 +52,7 @@ public class Main extends Plugin {
 		
 		ProxyServer.getInstance().getPluginManager().registerCommand(this, new FakeCommand());
 		ProxyServer.getInstance().getPluginManager().registerCommand(this, new ReloadCommand());
+		ProxyServer.getInstance().getPluginManager().registerCommand(this, new ToggleJoinCommand());
 		getLogger().info("has loaded!");
     }
     
@@ -99,5 +102,30 @@ public class Main extends Plugin {
 		loadConfig();
 		MessageHandler.getInstance().setupConfigMessages();
 		Storage.getInstance().setUpDefaultValuesFromConfig();
+	}
+	
+	public void SilentEvent(String type, String name) {
+		SilentEvent(type, name, "", "");
+	}
+
+	public void SilentEvent(String type, String name, String from, String to) {
+		String message = "";
+		switch(type) {
+			case "MOVE":
+				message = getConfig().getString("Messages.Misc.ConsoleSilentMoveEvent","&1Move Event was silenced. <player> <from> -> <to>");
+				message = message.replace("<to>", to);
+				message = message.replace("<from>", from);
+				break;
+			case "QUIT":
+				message = getConfig().getString("Messages.Misc.ConsoleSilentQuitEvent","&6Quit Event was silenced. <player> left the network.");
+				break;
+			case "JOIN":
+				message = getConfig().getString("Messages.Misc.ConsoleSilentJoinEvent","&6Join Event was silenced. <player> joined the network.");
+				break;
+		default:
+			return;
+		}
+		message = message.replace("<player>", name);
+		getLogger().info(HexChat.translateHexCodes(message));
 	}
 }

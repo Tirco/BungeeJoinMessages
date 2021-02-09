@@ -3,20 +3,20 @@
     <groupId>tv.tirco.bungeejoin</groupId>
     <artifactId>BungeeJoinMessages</artifactId>
     <!-- Version is used in plugin.yml -->
-    <version>1.5.0</version>
+    <version>1.6.1</version>
     <packaging>jar</packaging>
 
     <!-- Plugin Information -->
     <!-- Name, Description, and URL are used in plugin.yml -->
     <name>BungeeJoinMessages</name>
     <description>Example of a Spigot plugin using Maven</description>
-    <url>http://tirco.tv</url>
+    <url>https://www.spigotmc.org/resources/bungee-join-messages.87134/</url>
 
     <licenses>
         <license>
             <name>Zlib License</name>
             <url>http://opensource.org/licenses/Zlib</url>
-            <comments>Copyright (c) 2020 Tirco
+            <comments>Copyright (c) 2021 Tirco
             This software is provided 'as-is', without any express or implied
             warranty. In no event will the authors be held liable for any damages
             arising from the use of this software.

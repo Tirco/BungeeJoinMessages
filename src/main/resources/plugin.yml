@@ -29,7 +29,7 @@ permissions:
     bungejoinmessages.reload:
         description: "Allows the use of the reload command."
         default: op
-    bungejoinmessages.togglejoinmessage:
+    bungejoinmessages.togglemessage:
         description: "Allows the use of the togglemessage command."
         default: op
     bungeejoinmessages.silent:
