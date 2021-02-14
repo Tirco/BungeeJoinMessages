@@ -11,6 +11,7 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import tv.tirco.bungeejoin.Listener.PlayerListener;
+import tv.tirco.bungeejoin.Listener.VanishListener;
 import tv.tirco.bungeejoin.commands.FakeCommand;
 import tv.tirco.bungeejoin.commands.ReloadCommand;
 import tv.tirco.bungeejoin.commands.ToggleJoinCommand;
@@ -19,22 +20,12 @@ import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class Main extends Plugin {
 	
-	//TODO
-	/*
-	 * - Config option: Always displayJoinMessage for admins
-	 * - Config option: Always displayLeaveMessage for admins
-	 * - Config options to enable the different messages.
-	 * - Make fakeswitch command auto use current servers.
-	 * - Make arguments have shorter versions: fakeswitch -> fs - Fakejoin -> fj - Fakequit - fq
-	 * - Admin toggle options.
-	 * - List of all registered UUIDs to see if a player is new.
-	 */
-	
 	private static Main instance;
     //private File file;
     private Configuration configuration;
     
     private Plugin mainPlugin;
+    public boolean VanishAPI = false;
 
 	@Override
     public void onEnable() {
@@ -53,6 +44,13 @@ public class Main extends Plugin {
 		ProxyServer.getInstance().getPluginManager().registerCommand(this, new FakeCommand());
 		ProxyServer.getInstance().getPluginManager().registerCommand(this, new ReloadCommand());
 		ProxyServer.getInstance().getPluginManager().registerCommand(this, new ToggleJoinCommand());
+		
+		if(ProxyServer.getInstance().getPluginManager().getPlugin("SuperVanish") != null
+				|| ProxyServer.getInstance().getPluginManager().getPlugin("PremiumVanish") != null) {
+			getLogger().info("Detected PremiumVanish! - Using API.");
+			this.VanishAPI = true;
+			getProxy().getPluginManager().registerListener(this, new VanishListener());
+		}
 		getLogger().info("has loaded!");
     }
     

@@ -3,6 +3,7 @@ version: ${version}
 description: ${description}
 author: ${author}
 website: ${url}
+softdepend: [SuperVanish, PremiumVanish]
 
 main: ${mainClass}
 

@@ -63,3 +63,7 @@ Settings:
     LeaveNetworkMessageEnabled: true
     ##Should other players with the bungeejoinmessages.silent permission be notified of players moving silently?
     NotifyAdminsOnSilentMove: true
+##New in 1.7
+OtherPlugins:
+    PremiumVanish:
+        ToggleFakemessageWhenVanishing: true

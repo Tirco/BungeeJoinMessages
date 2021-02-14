@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import de.myzelyam.api.vanish.BungeeVanishAPI;
+import de.myzelyam.api.vanish.VanishAPI;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -102,6 +105,7 @@ public class MessageHandler {
 	}
 	
 	public String getServerPlayerCount(String serverName, boolean leaving, ProxiedPlayer player) {
+
 		return getServerPlayerCount(Main.getInstance().getProxy().getServers().get(serverName), leaving, player);
 	}
 	
@@ -110,6 +114,18 @@ public class MessageHandler {
 		if(serverInfo != null) {
 			int count = 0;
 			Collection<ProxiedPlayer> players = serverInfo.getPlayers();
+			
+			//VanishAPI Count
+			if(Main.getInstance().VanishAPI) {
+				if(Main.getInstance().getConfig().getBoolean("OtherPlugins.PremiumVanish.RemoveVanishedPlayersFromPlayerCount",true)) {
+					List<UUID> vanished = BungeeVanishAPI.getInvisiblePlayers();
+					for(ProxiedPlayer p : players) {
+						if(vanished.contains(p.getUniqueId())){
+							players.remove(p);
+						}
+					}
+				}
+			}
 			if(leaving && player != null) {
 				if(players.contains(player)) {
 					count = players.size() - 1;
@@ -121,6 +137,10 @@ public class MessageHandler {
 					count = players.size();
 				}
 			}
+			if(count < 0) {
+				count = 0;
+			}
+
 			serverPlayerCount = String.valueOf(count);
 		}
 		return serverPlayerCount;

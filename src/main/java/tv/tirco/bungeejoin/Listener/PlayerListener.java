@@ -2,6 +2,7 @@ package tv.tirco.bungeejoin.Listener;
 
 import java.util.concurrent.TimeUnit;
 
+import de.myzelyam.api.vanish.BungeeVanishAPI;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -104,6 +105,12 @@ public class PlayerListener implements Listener{
 		 {
 			 if(player.isConnected()) {
 		    		String message = MessageHandler.getInstance().formatJoinMessage(player);
+		    		
+		    		//VanishAPI support
+		    		if(Main.getInstance().VanishAPI) {
+		    			if(Main.getInstance().getConfig().getBoolean("OtherPlugins.PremiumVanish.ToggleFakemessageWhenVanishing",false))
+		    			Storage.getInstance().setAdminMessageState(player,BungeeVanishAPI.isInvisible(player));
+		    		}
 		    		
 		    		//Silent
 			    	if(Storage.getInstance().getAdminMessageState(player)) {

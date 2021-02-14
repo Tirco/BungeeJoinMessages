@@ -12,14 +12,28 @@ public class HexChat {
 
 	public static String translateHexCodes(String message)
 	{
-		return translate(HEX_PATTERN, message);
+		//return translate(HEX_PATTERN, message);
+    	message = ChatColor.translateAlternateColorCodes('&', message);
+    	return translateHexColorCodes("&#","",message);
 	}
 
-	public static String translateHexCodes(String startTag, String endTag, String message)
-	{
-		final Pattern hexPattern = Pattern.compile(startTag + "([a-f0-9]{6})" + endTag);
-		return translate(hexPattern, message);
-	}
+    public static String translateHexColorCodes(String startTag, String endTag, String message)
+    {
+
+        final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
+        Matcher matcher = hexPattern.matcher(message);
+        StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
+        while (matcher.find())
+        {
+            String group = matcher.group(1);
+            matcher.appendReplacement(buffer, COLOR_CHAR + "x"
+                    + COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
+                    + COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
+                    + COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
+                    );
+        }
+        return matcher.appendTail(buffer).toString();
+    }
 
 	private static String translate(Pattern hex, String message)
 	{
