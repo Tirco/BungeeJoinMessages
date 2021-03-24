@@ -82,12 +82,10 @@ public class PlayerListener implements Listener{
 	    		}
 	    	//Not silent
 	    	} else {
-	    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message),"switch");
-
+	    		//This one is special as there are certain settings in place.
+	    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message),"switch", from, to);
 	    	}
 		}
-		
-
 
 	}
 	

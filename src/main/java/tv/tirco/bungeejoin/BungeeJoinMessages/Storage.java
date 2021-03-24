@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class Storage {
@@ -22,6 +24,10 @@ public class Storage {
 	boolean JoinNetworkMessageEnabled = true;
 	boolean LeaveNetworkMessageEnabled = true;
 	boolean NotifyAdminsOnSilentMove = true;
+	
+	boolean SwapViewableByJoined = true;
+	boolean SwapViewableByLeft = true;
+	boolean SwapViewableByOther = true;
 	
 	public static Storage getInstance() {
 		if (instance == null) {
@@ -45,7 +51,13 @@ public class Storage {
 		this.JoinNetworkMessageEnabled = Main.getInstance().getConfig().getBoolean("Settings.JoinNetworkMessageEnabled", true);
 		this.LeaveNetworkMessageEnabled = Main.getInstance().getConfig().getBoolean("Settings.LeaveNetworkMessageEnabled", true);
 		this.NotifyAdminsOnSilentMove = Main.getInstance().getConfig().getBoolean("Settings.NotifyAdminsOnSilentMove", true);
+	
+		this.SwapViewableByJoined = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.ServerJoined", true);
+		this.SwapViewableByLeft = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.ServerLeft", true);
+		this.SwapViewableByOther = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.OtherServer", true);
 	}
+	
+	
 	
 	public boolean isSwapServerMessageEnabled() {
 		return SwapServerMessageEnabled;
@@ -176,6 +188,50 @@ public class Storage {
 			return noSwitchMessage;
 		default:
 			return new ArrayList<UUID>();
+		}
+	}
+
+	public List<ProxiedPlayer> getSwitchMessageReceivers(String to, String from) {
+		List<ProxiedPlayer> receivers = new ArrayList<ProxiedPlayer>();
+		//If all are true, add all players:
+		if(SwapViewableByJoined && SwapViewableByLeft && SwapViewableByOther) {
+			receivers.addAll(ProxyServer.getInstance().getPlayers());
+			return receivers;
+		} 
+		
+		//Other server is true, but atleast one of the to or from are set to false:
+		else if(SwapViewableByOther){
+			receivers.addAll(ProxyServer.getInstance().getPlayers());
+			//Players on the connected server is not allowed to see. Remove them all.
+			if(!SwapViewableByJoined) {
+				receivers.removeAll(getServerPlayers(to));
+			}
+			
+			if(!SwapViewableByLeft) {
+				receivers.removeAll(getServerPlayers(from));
+			}
+			return receivers;
+		} 
+		
+		//OtherServer is false.
+		else {
+			if(SwapViewableByJoined) {
+				receivers.addAll(getServerPlayers(to));
+			}
+			
+			if(SwapViewableByLeft) {
+				receivers.addAll(getServerPlayers(from));
+			}
+			return receivers;
+		}
+	}
+	
+	public List<ProxiedPlayer> getServerPlayers(String serverName){
+		ServerInfo info = Main.getInstance().getProxy().getServers().get(serverName);
+		if(info != null) {
+			return new ArrayList<ProxiedPlayer>(info.getPlayers());
+		} else {
+			return new ArrayList<ProxiedPlayer>();
 		}
 	}
 }

@@ -1,12 +1,13 @@
 package tv.tirco.bungeejoin.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import de.myzelyam.api.vanish.BungeeVanishAPI;
-import de.myzelyam.api.vanish.VanishAPI;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -64,15 +65,28 @@ public class MessageHandler {
 		return name;
 	}
 
-
 	public void broadcastMessage(String text, String type) {
+		broadcastMessage(text, type, "???", "???");
+	}
+
+	public void broadcastMessage(String text, String type, String from, String to) {
 		TextComponent msg = new TextComponent();
 		msg.setText(text);
 				//You could also use a StringBuilder here to get the arguments.
 		
+		List<ProxiedPlayer> receivers = new ArrayList<ProxiedPlayer>();
+		if(type.equalsIgnoreCase("switch")) {
+			receivers.addAll(Storage.getInstance().getSwitchMessageReceivers(to,from));
+		} else {
+			receivers.addAll(ProxyServer.getInstance().getPlayers());
+		}
+		
+		//Remove the players that have messages disabled
 		List<UUID> ignorePlayers = Storage.getInstance().getIgnorePlayers(type);
 		Main.getInstance().getLogger().info(text);
-		for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+
+		//Parse through all receivers and ignore the ones that are on the ignore list.
+		for(ProxiedPlayer player : receivers) {
 			if(ignorePlayers.contains(player.getUniqueId())) {
 				continue;
 			} else {
@@ -113,13 +127,13 @@ public class MessageHandler {
 		String serverPlayerCount = "?";
 		if(serverInfo != null) {
 			int count = 0;
-			Collection<ProxiedPlayer> players = serverInfo.getPlayers();
+			List<ProxiedPlayer> players = new ArrayList<ProxiedPlayer>(serverInfo.getPlayers());
 			
 			//VanishAPI Count
 			if(Main.getInstance().VanishAPI) {
 				if(Main.getInstance().getConfig().getBoolean("OtherPlugins.PremiumVanish.RemoveVanishedPlayersFromPlayerCount",true)) {
 					List<UUID> vanished = BungeeVanishAPI.getInvisiblePlayers();
-					for(ProxiedPlayer p : players) {
+					for(ProxiedPlayer p : serverInfo.getPlayers()) {
 						if(vanished.contains(p.getUniqueId())){
 							players.remove(p);
 						}
@@ -172,7 +186,9 @@ public class MessageHandler {
 		messageFormat = messageFormat.replace("%player%", player.getName());
 		messageFormat = messageFormat.replace("%displayname%", player.getDisplayName());
 		messageFormat = messageFormat.replace("%to%", to);
+		messageFormat = messageFormat.replace("%to_clean%", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',to)));
 		messageFormat = messageFormat.replace("%from%", from);
+		messageFormat = messageFormat.replace("%from_clean%", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',from)));
 		if(messageFormat.contains("%playercount_from%")) {
 			messageFormat = messageFormat.replace("%playercount_from%", getServerPlayerCount(fromName, true, player));
 		}
@@ -194,6 +210,10 @@ public class MessageHandler {
 			ServerInfo server = player.getServer().getInfo();
 			messageFormat = messageFormat.replace("%server_name%", getServerName(server.getName()));
 		}
+		if(messageFormat.contains("%server_name_clean%")) {
+			ServerInfo server = player.getServer().getInfo();
+			messageFormat = messageFormat.replace("%server_name_clean%", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', getServerName(server.getName()))));
+		}
 		if(messageFormat.contains("%playercount_server%")) {
 			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, false));
 		}
@@ -211,6 +231,10 @@ public class MessageHandler {
 		if(messageFormat.contains("%server_name%")) {
 			ServerInfo server = player.getServer().getInfo();
 			messageFormat = messageFormat.replace("%server_name%", getServerName(server.getName()));
+		}
+		if(messageFormat.contains("%server_name_clean%")) {
+			ServerInfo server = player.getServer().getInfo();
+			messageFormat = messageFormat.replace("%server_name_clean%", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', getServerName(server.getName()))));
 		}
 		if(messageFormat.contains("%playercount_server%")) {
 			messageFormat = messageFormat.replace("%playercount_server%", getServerPlayerCount(player, true));

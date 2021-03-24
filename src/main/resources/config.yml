@@ -10,7 +10,9 @@ Messages:
 ##New in v.1.4
         ##- '%player% (The playes name)'
         ##- '%to% the server they are heading to'
+        ##- '%to_clean% the server they are heading to - Without color codes'
         ##- '%from% the server they are coming from'
+        ##- '%from_clean% the server they are coming from - Without color codes'
         ##- '%playercount_from% The amount of players where they are coming from.' 
         ##- '%playercount_to% The amount of players where they are heading to.' 
         ##- '%playercount_network% The amount of players on the network.'
@@ -20,6 +22,7 @@ Messages:
 ##New in v.1.4
         ##- '%player%: (The playes name)'
         ##- '%server_name%: The name of the server they connected to.'
+        ##- '%server_name_clean% The name of the server they connected to - Without color codes'
         ##- '%playercount_server%: The playercount of the server they are on.'
         ##- '%playercount_network%: The playercount of the network.'
 ##New in v.1.5.2
@@ -28,6 +31,7 @@ Messages:
 ##New in v.1.4 
         ##- '%player%: (The playes name)'
         ##- '%server_name%: The name of the server they disconnected from.'
+        ##- '%server_name_clean% The name of the server they connected to - Without color codes'
         ##- '%playercount_server%: The playercount of the server they were on.'
         ##- '%playercount_network%: The playercount of the network.'
 ##New in v.1.5.2
@@ -63,7 +67,23 @@ Settings:
     LeaveNetworkMessageEnabled: true
     ##Should other players with the bungeejoinmessages.silent permission be notified of players moving silently?
     NotifyAdminsOnSilentMove: true
+    
+    
+    ##NEW IN V.1.8.0
+    ##NOTE: These does not affect silenced players. Silenced move messages will be seen by all players with the permission.
+    SwapServerMessageViewableBy:
+        ##Should the swap server message be seen by the server they swapped to?
+        ServerJoined: true
+        
+        ##Should the swap server message be seen by the server they swapped from?
+        ServerLeft: true
+        
+        ##Should the swap server message be seen by the other servers?
+        OtherServer: true
+        
+        
 ##New in 1.7
 OtherPlugins:
     PremiumVanish:
         ToggleFakemessageWhenVanishing: true
+        RemoveVanishedPlayersFromPlayerCount: true
