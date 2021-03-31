@@ -81,6 +81,20 @@ Settings:
         ##Should the swap server message be seen by the other servers?
         OtherServer: true
         
+    ##NEW IN V.1.9.0
+    ##Servers in this list will not trigger messages.
+    ##Servers listed here are case sensitive. Check your bungee config to see how you have them listed!
+    ServerBlacklist:
+        - SomeServerName
+        - SomeOtherServerName
+    ##Should the blacklist list be the only servers allowed to trigger messages? (Reverse the check)
+    UseBlacklistAsWhitelist: false
+    ##When a player swaps from A to B, which one should we check? JOINED, LEFT, BOTH, ANY
+    ##Behaviour will change depending on the blacklist being in blacklist or whitelist mode.
+    ##example: If you set this to JOINED: BlacklistMode will prevent the message from going through if the joined server is going through.
+    ##                                    WhitelistMode will only allow it if the joined server is in the list.
+    ## IF set to ANY or both, ANY of them must be blacklisted/whitelisted, or BOTH of them must ble blacklisted/whitelisted.
+    SwapServerMessageRequires: ANY
         
 ##New in 1.7
 OtherPlugins:

@@ -246,5 +246,10 @@ public class MessageHandler {
 		return messageFormat;
 	}
 
+	public void log(String string) {
+		Main.getInstance().getLogger().info(string);
+		
+	}
+
 
 }

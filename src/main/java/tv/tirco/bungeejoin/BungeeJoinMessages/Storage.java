@@ -8,6 +8,7 @@ import java.util.UUID;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class Storage {
 
@@ -28,6 +29,11 @@ public class Storage {
 	boolean SwapViewableByJoined = true;
 	boolean SwapViewableByLeft = true;
 	boolean SwapViewableByOther = true;
+	
+	//BlackList settings
+	List<String> BlacklistedServers;
+	boolean useBlacklistAsWhitelist;
+	String SwapServerMessageRequires = "ANY";
 	
 	public static Storage getInstance() {
 		if (instance == null) {
@@ -55,6 +61,29 @@ public class Storage {
 		this.SwapViewableByJoined = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.ServerJoined", true);
 		this.SwapViewableByLeft = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.ServerLeft", true);
 		this.SwapViewableByOther = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.OtherServer", true);
+	
+		//Blacklist
+		this.BlacklistedServers = Main.getInstance().getConfig().getStringList("Settings.ServerBlacklist");
+		if(this.BlacklistedServers == null) { //Not sure if needed. Better safe than sorry.
+			this.BlacklistedServers = new ArrayList<String>();
+		}
+		this.useBlacklistAsWhitelist = Main.getInstance().getConfig().getBoolean("Settings.UseBlacklistAsWhitelist", false);
+		this.SwapServerMessageRequires = Main.getInstance().getConfig().getString("Settings.SwapServerMessageRequires", "ANY").toUpperCase();
+		
+		//Verify Swap Server Message
+		switch(SwapServerMessageRequires) {
+		case "JOINED":
+		case "LEFT":
+		case "BOTH":
+		case "ANY":
+			break;
+		default:
+			MessageHandler.getInstance().log("Setting error: Settings.SwapServerMessageRequires "
+					+ "only allows JOINED LEFT BOTH or ANY. Got " + SwapServerMessageRequires +
+					"Defaulting to ANY.");
+			this.SwapServerMessageRequires = "ANY";
+		}
+		
 	}
 	
 	
@@ -233,5 +262,51 @@ public class Storage {
 		} else {
 			return new ArrayList<ProxiedPlayer>();
 		}
+	}
+
+	
+	public boolean blacklistCheck(ProxiedPlayer player) {
+		String server = player.getServer().getInfo().getName();
+		boolean listed = BlacklistedServers.contains(server);
+		if(useBlacklistAsWhitelist) {
+		//WHITELIST
+			return !listed;
+			//Returns TRUE if it's NOT in the list (Deny MessagE)
+			//FALSE if it is in the list. (Allow Message)
+
+		} else {
+		//BLACKLIST
+			return listed;
+			//Returns TRUE if it is listed. (Allow Message)
+			//FALSE if it's not listed. (Deny Message)
+
+		}
+		//Returning FALSE allows the message to go further, TRUE will stop it.
+	}
+
+	public boolean blacklistCheck(String from, String to) {
+		Boolean fromListed = BlacklistedServers.contains(from);
+		Boolean toListed = BlacklistedServers.contains(to);
+		Boolean result = true;
+		switch(SwapServerMessageRequires.toUpperCase()) {
+		case "JOINED":
+			result = toListed;
+		case "LEFT":
+			result = fromListed;
+		case "ANY":
+			result = fromListed || toListed;
+		case "BOTH":
+			result = fromListed && toListed;
+		default:
+			break;
+		}
+		//Returning FALSE allows the message to go further, TRUE will stop it.
+		if(useBlacklistAsWhitelist) {
+			//WHITELIST
+				return !result;
+			} else {
+			//BLACKLIST
+				return result;
+			}
 	}
 }

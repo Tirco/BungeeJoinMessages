@@ -67,6 +67,10 @@ public class PlayerListener implements Listener{
 		
 		if(Storage.getInstance().isSwapServerMessageEnabled()) {
 			
+	    	if(Storage.getInstance().blacklistCheck(from, to)) {
+	    		return;
+	    	}
+			
     		String message = MessageHandler.getInstance().formatSwitchMessage(player, from, to);
 			
     		//Silent
@@ -109,6 +113,11 @@ public class PlayerListener implements Listener{
 		    			if(Main.getInstance().getConfig().getBoolean("OtherPlugins.PremiumVanish.ToggleFakemessageWhenVanishing",false))
 		    			Storage.getInstance().setAdminMessageState(player,BungeeVanishAPI.isInvisible(player));
 		    		}
+		    		
+		    		//Blacklist Check
+		        	if(Storage.getInstance().blacklistCheck(player,"JOIN")) {
+		        		return;
+		        	}
 		    		
 		    		//Silent
 			    	if(Storage.getInstance().getAdminMessageState(player)) {
@@ -159,6 +168,10 @@ public class PlayerListener implements Listener{
     	}
     	
     	if(!Storage.getInstance().isConnected(player)) {
+    		return;
+    	}
+    	
+    	if(Storage.getInstance().blacklistCheck(player)) {
     		return;
     	}
     	
