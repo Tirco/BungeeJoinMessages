@@ -115,7 +115,7 @@ public class PlayerListener implements Listener{
 		    		}
 		    		
 		    		//Blacklist Check
-		        	if(Storage.getInstance().blacklistCheck(player,"JOIN")) {
+		        	if(Storage.getInstance().blacklistCheck(player)) {
 		        		return;
 		        	}
 		    		

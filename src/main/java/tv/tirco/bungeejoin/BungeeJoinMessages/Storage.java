@@ -291,13 +291,22 @@ public class Storage {
 		switch(SwapServerMessageRequires.toUpperCase()) {
 		case "JOINED":
 			result = toListed;
+			//MessageHandler.getInstance().log("Joined - toListed = " + toListed);
+			break;
 		case "LEFT":
 			result = fromListed;
+			//MessageHandler.getInstance().log("Left - fromListed = " + fromListed);
+			break;
 		case "ANY":
 			result = fromListed || toListed;
+			//MessageHandler.getInstance().log("ANY - fromListed = " + fromListed + "toListed = " + toListed + " result = " + result);
+			break;
 		case "BOTH":
 			result = fromListed && toListed;
+			//MessageHandler.getInstance().log("BOTH - fromListed = " + fromListed + "toListed = " + toListed + " result = " + result);
+			break;
 		default:
+			//MessageHandler.getInstance().log("Warning: Default action triggered under blacklist check. Is it correctly configured?");
 			break;
 		}
 		//Returning FALSE allows the message to go further, TRUE will stop it.
