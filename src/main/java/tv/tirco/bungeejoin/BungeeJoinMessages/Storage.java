@@ -91,10 +91,10 @@ public class Storage {
 	public boolean isSwapServerMessageEnabled() {
 		return SwapServerMessageEnabled;
 	}
-	public boolean isJoinNetworlMessageEnabled() {
+	public boolean isJoinNetworkMessageEnabled() {
 		return JoinNetworkMessageEnabled;
 	}
-	public boolean isLeaveNetworlMessageEnabled() {
+	public boolean isLeaveNetworkMessageEnabled() {
 		return LeaveNetworkMessageEnabled;
 	}
 	public boolean notifyAdminsOnSilentMove() {

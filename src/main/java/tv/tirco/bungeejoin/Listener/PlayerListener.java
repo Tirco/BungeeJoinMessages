@@ -100,12 +100,16 @@ public class PlayerListener implements Listener{
     	if(player == null) {
     		return;
     	}
-    	
+   
     	
    	 ProxyServer.getInstance().getScheduler().schedule(Main.getInstance().getPlugin(), new Runnable() {
 		 public void run()
 		 {
 			 if(player.isConnected()) {
+				 	Storage.getInstance().setConnected(player, true);
+				    if(!Storage.getInstance().isJoinNetworkMessageEnabled()) {
+				    	return;
+				    }
 		    		String message = MessageHandler.getInstance().formatJoinMessage(player);
 		    		
 		    		//VanishAPI support
@@ -148,7 +152,7 @@ public class PlayerListener implements Listener{
 			    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "join");
 
 			    	}
-			    	Storage.getInstance().setConnected(player, true);
+			    	
 			 }
 
 
@@ -166,9 +170,15 @@ public class PlayerListener implements Listener{
     	if(player == null) {
     		return;
     	}
+
     	
     	if(!Storage.getInstance().isConnected(player)) {
     		return;
+    	}
+    	 	
+    	if(!Storage.getInstance().isJoinNetworkMessageEnabled()) {
+    			Storage.getInstance().setConnected(player, false);
+    	    	return;
     	}
     	
     	if(Storage.getInstance().blacklistCheck(player)) {
@@ -198,8 +208,5 @@ public class PlayerListener implements Listener{
     	
     	//Set them as not connected, as they have left the server.
     	Storage.getInstance().setConnected(player, false);
-//        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-//        	
-//        }
     }
 }

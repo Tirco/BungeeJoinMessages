@@ -6,8 +6,6 @@ Servers:
     staff: "&4Staff Server"
     ???: "&7Unknown Server"
 Messages:
-    SwapServerMessage: "&6&l%player%&r  &7[%from%&7] (%playercount_from%) -> [%to%&7] (%playercount_to%)"
-##New in v.1.4
         ##- '%player% (The playes name)'
         ##- '%to% the server they are heading to'
         ##- '%to_clean% the server they are heading to - Without color codes'
@@ -16,33 +14,29 @@ Messages:
         ##- '%playercount_from% The amount of players where they are coming from.' 
         ##- '%playercount_to% The amount of players where they are heading to.' 
         ##- '%playercount_network% The amount of players on the network.'
-##New in v.1.5.2
         ##- '%displayname% - The custom name the player has.'
-    JoinNetworkMessage: "&6%displayname% &7(%player%&7) &6has connected to the network!"
-##New in v.1.4
+    SwapServerMessage: "&6&l%player%&r  &7[%from%&7] (%playercount_from%) -> [%to%&7] (%playercount_to%)"
         ##- '%player%: (The playes name)'
         ##- '%server_name%: The name of the server they connected to.'
         ##- '%server_name_clean% The name of the server they connected to - Without color codes'
         ##- '%playercount_server%: The playercount of the server they are on.'
         ##- '%playercount_network%: The playercount of the network.'
-##New in v.1.5.2
         ##- '%displayname% - The custom name the player has.'
-    LeaveNetworkMessage: "&6%player% &6has disconnected from the network!"
-##New in v.1.4 
+    JoinNetworkMessage: "&6%displayname% &7(%player%&7) &6has connected to the network!"
         ##- '%player%: (The playes name)'
         ##- '%server_name%: The name of the server they disconnected from.'
         ##- '%server_name_clean% The name of the server they connected to - Without color codes'
         ##- '%playercount_server%: The playercount of the server they were on.'
         ##- '%playercount_network%: The playercount of the network.'
-##New in v.1.5.2
         ##- '%displayname% - The custom name the player has, according to bungee.'
-##New in v.1.6.0 Configurable Command Messages!
+    LeaveNetworkMessage: "&6%player% &6has disconnected from the network!"
+## Configurable Command Messages!
     Commands:
         NoMoreArgumentsNeeded: "No more arguments needed."
         NoPermission: "&cYou do not have the permission to use this command."
         Fakemessage:
             NoArgument: "&6Arguments:\n- &cfakejoin\n- &cfakequit\n- &cfakeswitch&6 (to) (from)\n"
-            FakeSwitchNoArgument:"&6Arguments:\n- &cfakejoin\n- &cfakequit\n- &cfakeswitch&6 (to) (from)\n&4Error: Please specify &cTO&4 and &cFROM\n"
+            FakeSwitchNoArgument: "&6Arguments:\n- &cfakejoin\n- &cfakequit\n- &cfakeswitch&6 (to) (from)\n&4Error: Please specify &cTO&4 and &cFROM\n"
             ToggleSilentNoPerm: "&cYou do not have the permission to join the server silently."
             ToggleSilent: "&eYour SilentMode has now been set to &6<state>"
             JoinNotification: "&7[BungeeJoin] You joined the server while silenced.\n&7To have messages automatically enabled for you until\n&7next reboot, use the command &f/fm toggle&7."
@@ -57,9 +51,9 @@ Messages:
         ConsoleSilentMoveEvent: "&1Move Event was silenced. <player> <from> -> <to>"
         ConsoleSilentJoinEvent: "&6Join Event was silenced. <player> joined the network."
         ConsoleSilentQuitEvent: "&cQuit Event was silenced. <player> left the network."
-##New in v.1.3
 Settings:
-    ##Should players with the bungeejoinmessages.silent permission be silenced by default? It will be set to this for all players after a reboot. They can toggle it for themselves with the /fakemessage toggle command
+    ##Should players with the bungeejoinmessages.silent permission be silenced by default?
+    ##It will be set to this for all players after a reboot. They can toggle it for themselves with the /fakemessage toggle command
     SilentJoinDefaultState: true
     ##Should the following messages be enabled?
     SwapServerMessageEnabled: true
