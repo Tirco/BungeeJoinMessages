@@ -65,8 +65,8 @@ public class MessageHandler {
 		return name;
 	}
 
-	public void broadcastMessage(String text, String type) {
-		broadcastMessage(text, type, "???", "???");
+	public void broadcastMessage(String text, String type, ProxiedPlayer p) {
+		broadcastMessage(text, type, p.getServer().getInfo().getName(), "???");
 	}
 
 	public void broadcastMessage(String text, String type, String from, String to) {
@@ -77,13 +77,20 @@ public class MessageHandler {
 		List<ProxiedPlayer> receivers = new ArrayList<ProxiedPlayer>();
 		if(type.equalsIgnoreCase("switch")) {
 			receivers.addAll(Storage.getInstance().getSwitchMessageReceivers(to,from));
-		} else {
+		} else if(type.equalsIgnoreCase("join")){
+			receivers.addAll(Storage.getInstance().getJoinMessageReceivers(from));
+		} else if(type.equalsIgnoreCase("leave")){
+			receivers.addAll(Storage.getInstance().getLeaveMessageReceivers(from));
+		}else {
 			receivers.addAll(ProxyServer.getInstance().getPlayers());
 		}
 		
 		//Remove the players that have messages disabled
 		List<UUID> ignorePlayers = Storage.getInstance().getIgnorePlayers(type);
 		Main.getInstance().getLogger().info(text);
+		
+		//Add the players that are on ignored servers to the ignored list.
+		ignorePlayers.addAll(Storage.getInstance().getIgnoredServerPlayers(type));
 
 		//Parse through all receivers and ignore the ones that are on the ignore list.
 		for(ProxiedPlayer player : receivers) {

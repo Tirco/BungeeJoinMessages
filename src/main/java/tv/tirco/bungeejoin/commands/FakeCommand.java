@@ -40,12 +40,12 @@ public class FakeCommand extends Command implements TabExecutor{
             } else {
             	if(args[0].equalsIgnoreCase("fakejoin") || args[0].equalsIgnoreCase("fj") ) {
             		String message = MessageHandler.getInstance().formatJoinMessage(player);
-            		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "join");
+            		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "join", player);
             		return;
             		
             	} else if(args[0].equalsIgnoreCase("fakequit")  || args[0].equalsIgnoreCase("fq")) {
             		String message = MessageHandler.getInstance().formatQuitMessage(player);
-            		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "leave");
+            		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "leave", player);
             		return;
             		
             	} else if(args[0].equalsIgnoreCase("fakeswitch")  || args[0].equalsIgnoreCase("fs")) {
@@ -65,7 +65,7 @@ public class FakeCommand extends Command implements TabExecutor{
             			
             			String message = MessageHandler.getInstance().formatSwitchMessage(player, fromName, toName);
 
-                		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "switch");
+                		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "switch", fromName, toName);
                 		return;
             		}
             	} else if(args[0].equalsIgnoreCase("toggle")) {

@@ -30,6 +30,15 @@ public class Storage {
 	boolean SwapViewableByLeft = true;
 	boolean SwapViewableByOther = true;
 	
+	boolean JoinViewableByJoined = true;
+	boolean JoinViewableByOther = true;
+	
+	boolean LeftViewableByLeft = true;
+	boolean LeftViewableByOther = true;
+	
+	List<String> ServerJoinMessageDisabled;
+	List<String> ServerLeaveMessageDisabled;
+	
 	//BlackList settings
 	List<String> BlacklistedServers;
 	boolean useBlacklistAsWhitelist;
@@ -61,7 +70,13 @@ public class Storage {
 		this.SwapViewableByJoined = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.ServerJoined", true);
 		this.SwapViewableByLeft = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.ServerLeft", true);
 		this.SwapViewableByOther = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageViewableBy.OtherServer", true);
-	
+		
+		this.JoinViewableByJoined = Main.getInstance().getConfig().getBoolean("Settings.JoinNetworkMessageViewableBy.ServerJoined", true);
+		this.JoinViewableByOther = Main.getInstance().getConfig().getBoolean("Settings.JoinNetworkMessageViewableBy.OtherServer", true);
+		
+		this.LeftViewableByLeft = Main.getInstance().getConfig().getBoolean("Settings.LeaveNetworkMessageViewableBy.ServerLeft", true);
+		this.LeftViewableByOther = Main.getInstance().getConfig().getBoolean("Settings.LeaveNetworkMessageViewableBy.OtherServer", true);
+		
 		//Blacklist
 		this.BlacklistedServers = Main.getInstance().getConfig().getStringList("Settings.ServerBlacklist");
 		if(this.BlacklistedServers == null) { //Not sure if needed. Better safe than sorry.
@@ -69,6 +84,9 @@ public class Storage {
 		}
 		this.useBlacklistAsWhitelist = Main.getInstance().getConfig().getBoolean("Settings.UseBlacklistAsWhitelist", false);
 		this.SwapServerMessageRequires = Main.getInstance().getConfig().getString("Settings.SwapServerMessageRequires", "ANY").toUpperCase();
+		
+		this.ServerJoinMessageDisabled = Main.getInstance().getConfig().getStringList("Settings.IgnoreJoinMessagesList");
+		this.ServerLeaveMessageDisabled = Main.getInstance().getConfig().getStringList("Settings.IgnoreLeaveMessagesList");
 		
 		//Verify Swap Server Message
 		switch(SwapServerMessageRequires) {
@@ -84,9 +102,9 @@ public class Storage {
 			this.SwapServerMessageRequires = "ANY";
 		}
 		
+		MessageHandler.getInstance().log("BungeeJoinMessages Config has been reloaded.");
+		
 	}
-	
-	
 	
 	public boolean isSwapServerMessageEnabled() {
 		return SwapServerMessageEnabled;
@@ -227,7 +245,7 @@ public class Storage {
 			receivers.addAll(ProxyServer.getInstance().getPlayers());
 			return receivers;
 		} 
-		
+
 		//Other server is true, but atleast one of the to or from are set to false:
 		else if(SwapViewableByOther){
 			receivers.addAll(ProxyServer.getInstance().getPlayers());
@@ -254,6 +272,51 @@ public class Storage {
 			return receivers;
 		}
 	}
+	
+	public List<ProxiedPlayer> getJoinMessageReceivers(String server) {
+		List<ProxiedPlayer> receivers = new ArrayList<ProxiedPlayer>();
+		//If all are true, add all players:
+		if(JoinViewableByJoined && JoinViewableByOther) {
+			receivers.addAll(ProxyServer.getInstance().getPlayers());
+			return receivers;
+		} 
+
+		//Other server is true, but atleast one of the to or from are set to false:
+		else if(JoinViewableByOther){
+			receivers.addAll(ProxyServer.getInstance().getPlayers());
+			receivers.removeAll(getServerPlayers(server));
+			return receivers;
+		} 
+		else {
+			if(JoinViewableByJoined) {
+				receivers.addAll(getServerPlayers(server));
+			}
+			return receivers;
+		}
+	}
+	
+	public List<ProxiedPlayer> getLeaveMessageReceivers(String server) {
+		List<ProxiedPlayer> receivers = new ArrayList<ProxiedPlayer>();
+		//If all are true, add all players:
+		if(LeftViewableByLeft && LeftViewableByOther) {
+			receivers.addAll(ProxyServer.getInstance().getPlayers());
+			return receivers;
+		} 
+
+		//Other server is true, but atleast one of the to or from are set to false:
+		else if(LeftViewableByOther){
+			receivers.addAll(ProxyServer.getInstance().getPlayers());
+			receivers.removeAll(getServerPlayers(server));
+			return receivers;
+		} 
+		else {
+			if(LeftViewableByLeft) {
+				receivers.addAll(getServerPlayers(server));
+			}
+			return receivers;
+		}
+	}
+	
 	
 	public List<ProxiedPlayer> getServerPlayers(String serverName){
 		ServerInfo info = Main.getInstance().getProxy().getServers().get(serverName);
@@ -317,5 +380,30 @@ public class Storage {
 			//BLACKLIST
 				return result;
 			}
+	}
+
+	
+	public List<UUID> getIgnoredServerPlayers(String type) {
+		List<UUID> ignored = new ArrayList<UUID>();
+		if(type.equalsIgnoreCase("join")) {
+			for(String s : ServerJoinMessageDisabled) {
+				ServerInfo info = Main.getInstance().getProxy().getServers().get(s);
+				if(info != null) {
+					for(ProxiedPlayer p :info.getPlayers()) {
+						ignored.add(p.getUniqueId());
+					}
+				}
+			}
+		} else if(type.equalsIgnoreCase("leave")) {
+			for(String s : ServerLeaveMessageDisabled) {
+				ServerInfo info = Main.getInstance().getProxy().getServers().get(s);
+				if(info != null) {
+					for(ProxiedPlayer p :info.getPlayers()) {
+						ignored.add(p.getUniqueId());
+					}
+				}
+			}
+		}
+		return ignored;
 	}
 }

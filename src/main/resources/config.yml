@@ -62,8 +62,6 @@ Settings:
     ##Should other players with the bungeejoinmessages.silent permission be notified of players moving silently?
     NotifyAdminsOnSilentMove: true
     
-    
-    ##NEW IN V.1.8.0
     ##NOTE: These does not affect silenced players. Silenced move messages will be seen by all players with the permission.
     SwapServerMessageViewableBy:
         ##Should the swap server message be seen by the server they swapped to?
@@ -74,8 +72,20 @@ Settings:
         
         ##Should the swap server message be seen by the other servers?
         OtherServer: true
-        
-    ##NEW IN V.1.9.0
+##New in 1.10.0
+    JoinNetworkMessageViewableBy:
+        ##Should the Join Network message be seen by the server they Joined?
+        ServerJoined: true
+
+        ##Should theJoin Network message be seen by the other servers?
+        OtherServer: true
+    LeaveNetworkMessageViewableBy:
+        ##Should the Leave Network message be seen by the server they left?
+        ServerLeft: true
+
+        ##Should the Leave Network message be seen by the other servers?
+        OtherServer: true
+ 
     ##Servers in this list will not trigger messages.
     ##Servers listed here are case sensitive. Check your bungee config to see how you have them listed!
     ServerBlacklist:
@@ -89,8 +99,21 @@ Settings:
     ##                                    WhitelistMode will only allow it if the joined server is in the list.
     ## IF set to ANY or both, ANY of them must be blacklisted/whitelisted, or BOTH of them must ble blacklisted/whitelisted.
     SwapServerMessageRequires: ANY
-        
-##New in 1.7
+##New in 1.10.0
+    ##IngoreJoinMessagesList - Players on these servers will not see a message when someone joins the network.
+    ##The global message will still be triggered if someone joins these servers directly.
+    ##Case sensitive!
+    IgnoreJoinMessagesList:
+        - SomeServerNameThatShouldNotSeeJoinNetworkMessages
+        - SomeOtherServerName
+    ##IngoreLeaveMessagesList - Players on these servers will not see a message when someone leaves the network.
+    ##The global message will still be triggered if someone leaves these servers directly.
+    ##Case sensitive!
+    IgnoreLeaveMessagesList:
+        - SomeServerNameThatShouldNotSeeLeaveNetworkMessages
+        - SomeOtherServerName
+
+
 OtherPlugins:
     PremiumVanish:
         ToggleFakemessageWhenVanishing: true

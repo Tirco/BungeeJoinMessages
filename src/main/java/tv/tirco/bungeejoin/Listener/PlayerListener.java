@@ -149,7 +149,7 @@ public class PlayerListener implements Listener{
 			    		}
 			    	//Not silent
 			    	} else {
-			    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "join");
+			    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes( message), "join", player);
 
 			    	}
 			    	
@@ -202,7 +202,7 @@ public class PlayerListener implements Listener{
     		}
     	//Not silent
     	} else {
-    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes(message),"leave");
+    		MessageHandler.getInstance().broadcastMessage(HexChat.translateHexCodes(message),"leave", player);
 
     	}
     	
