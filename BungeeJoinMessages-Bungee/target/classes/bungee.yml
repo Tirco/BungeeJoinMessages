@@ -1,0 +1,12 @@
+name: ${name}
+version: ${version}
+description: ${description}
+author: ${author}
+website: ${url}
+softdepend: [SuperVanish, PremiumVanish]
+api-version: 1.16
+
+main: "tv.tirco.bungeejoin.BungeeJoinMessages.Main"
+
+commands: []
+permissions: []

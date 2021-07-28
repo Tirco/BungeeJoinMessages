@@ -56,6 +56,10 @@ public class PlayerListener implements Listener{
 	public void onPlayerSwitchServer(ServerConnectedEvent e) {
 		ProxiedPlayer player = e.getPlayer();
 		Server server = e.getServer();
+		
+		if(!Storage.getInstance().isConnected(player)) {
+			return;
+		}
 
 		String to = server.getInfo().getName();
 		String from = "???";
