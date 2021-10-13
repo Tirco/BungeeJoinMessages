@@ -330,6 +330,16 @@ public class Storage {
 	
 	public boolean blacklistCheck(ProxiedPlayer player) {
 		String server = player.getServer().getInfo().getName();
+		//Null check because of Geyser issues.
+		if(server == null) {
+			MessageHandler.getInstance().log("Warning: Server of " + player.getName() + " came back as Null. Blackisted Server check failed.");
+			return false;
+		}
+		
+		if(BlacklistedServers == null) {
+			MessageHandler.getInstance().log("Warning: Blacklisted servers returned null instead of an empty list...");
+			return false;
+		}
 		boolean listed = BlacklistedServers.contains(server);
 		if(useBlacklistAsWhitelist) {
 		//WHITELIST

@@ -29,7 +29,7 @@ public class Main extends Plugin {
 
 	@Override
     public void onEnable() {
-		getLogger().info("is loading...");
+		getLogger().info("Bungee Version is loading...");
 		setInstance(this);
 		this.mainPlugin = this;
         // Don't log enabling, Spigot does that for you automatically!
