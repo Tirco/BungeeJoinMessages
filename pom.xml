@@ -1,16 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>tv.tirco.bungeejoin</groupId>
-    <artifactId>BungeeJoinMessages</artifactId>
+    <artifactId>BungeeJoinMessagesParent</artifactId>
     <!-- Version is used in plugin.yml -->
-    <version>1.10.0</version>
-    <packaging>jar</packaging>
+    <version>1.10.2</version>
+    <packaging>pom</packaging>
 
     <!-- Plugin Information -->
     <!-- Name, Description, and URL are used in plugin.yml -->
-    <name>BungeeJoinMessages</name>
+    <name>BungeeJoinMessagesParent</name>
     <description>Example of a Spigot plugin using Maven</description>
     <url>https://www.spigotmc.org/resources/bungee-join-messages.87134/</url>
+    
+    <modules>
+    <module>BungeeJoinMessages</module>
+    <module>BungeeJoinMessages-Bukkit</module>
+	</modules>
 
     <licenses>
         <license>
@@ -102,7 +107,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
