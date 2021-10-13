@@ -1,0 +1,39 @@
+name: Bungee
+version: 1.10.1
+description: Example of a Spigot plugin using Maven
+author: ${author}
+website: https://www.spigotmc.org/resources/bungee-join-messages.87134/Bungee/
+softdepend: [SuperVanish, PremiumVanish]
+api-version: 1.16
+
+main: ${mainClass}
+
+commands:
+    fakemessage:
+        description: Send a fake join or leave message from bungee
+        permission: bungeejoinmessage.fakemessage
+        usage: /<command>
+        aliases: [fmr]
+    bungeejoinreload:
+        description: reloads the configuration file
+        permission: bungeejoinmessage.reload
+        usage: /<command>
+        aliases: [bjoinreload]
+    togglejoinmessage:
+        description: Toggles incomming join messages.
+        permission: bungeejoinmessages.togglemessage
+        usage: /<command>
+        aliases: [bjointoggle]
+permissions:
+    bungejoinmessages.fakemessage:
+        description: "Allows the use of the fakemessage command."
+        default: op
+    bungejoinmessages.reload:
+        description: "Allows the use of the reload command."
+        default: op
+    bungejoinmessages.togglemessage:
+        description: "Allows the use of the togglemessage command."
+        default: op
+    bungeejoinmessages.silent:
+        description: "lets you join the server without notifications."
+        default: false

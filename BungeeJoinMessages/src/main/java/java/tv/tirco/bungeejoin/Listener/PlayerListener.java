@@ -61,7 +61,6 @@ public class PlayerListener implements Listener{
 			return;
 		}
 
-
 		String to = server.getInfo().getName();
 		String from = "???";
 		if(Storage.getInstance().isElsewhere(player)) {
