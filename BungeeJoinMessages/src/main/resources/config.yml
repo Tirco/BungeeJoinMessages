@@ -15,7 +15,7 @@ Messages:
         ##- '%playercount_to% The amount of players where they are heading to.' 
         ##- '%playercount_network% The amount of players on the network.'
         ##- '%displayname% - The custom name the player has.'
-    SwapServerMessage: "&6&l%player%&r  &7[%from%&7] (%playercount_from%) -> [%to%&7] (%playercount_to%)"
+    SwapServerMessage: "&6&l%player%&r &7[%from%&7] (%playercount_from%) -> [%to%&7] (%playercount_to%)"
         ##- '%player%: (The playes name)'
         ##- '%server_name%: The name of the server they connected to.'
         ##- '%server_name_clean% The name of the server they connected to - Without color codes'
