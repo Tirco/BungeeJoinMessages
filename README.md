@@ -10,7 +10,7 @@
 
 Zlib was chosen as the basis for this project (BukkitPlugin) as it is highly permissive and easy for people to understand. The license has only been modified for this project to reflect authorship and creation year.
 
-Copyright (c) 2020 Tirco
+Copyright (c) 2021 Tirco
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
