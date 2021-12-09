@@ -95,17 +95,31 @@ public class Main extends Plugin {
 		return mainPlugin;
 	}
 
-	
+	/**
+	 * Attempt to load values from configfile.
+	 */
 	public void reloadConfig() {
 		loadConfig();
 		MessageHandler.getInstance().setupConfigMessages();
 		Storage.getInstance().setUpDefaultValuesFromConfig();
 	}
 	
+	/**
+	 * Used when there's no specific from/to server.
+	 * @param type - Type of event
+	 * @param name - Name of player.
+	 */
 	public void SilentEvent(String type, String name) {
 		SilentEvent(type, name, "", "");
 	}
 
+	/**
+	 * Used to send a move message.
+	 * @param type - The type of event that is silenced.
+	 * @param name - Name of the player.
+	 * @param from - Name of the server that is being moved from.
+	 * @param to - Name of the server that is being moved to.
+	 */
 	public void SilentEvent(String type, String name, String from, String to) {
 		String message = "";
 		switch(type) {

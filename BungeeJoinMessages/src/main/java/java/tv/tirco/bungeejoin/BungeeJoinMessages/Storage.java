@@ -44,6 +44,10 @@ public class Storage {
 	boolean useBlacklistAsWhitelist;
 	String SwapServerMessageRequires = "ANY";
 	
+	/**
+	 * Get current instance. Make new if there is none.
+	 * @return instance of the storage.
+	 */
 	public static Storage getInstance() {
 		if (instance == null) {
 			instance = new Storage();
@@ -61,6 +65,9 @@ public class Storage {
 		this.noSwitchMessage = new ArrayList<UUID>();
 	}
 	
+	/**
+	 * Grab values from config and save them here.
+	 */
 	public void setUpDefaultValuesFromConfig() {
 		this.SwapServerMessageEnabled = Main.getInstance().getConfig().getBoolean("Settings.SwapServerMessageEnabled", true);
 		this.JoinNetworkMessageEnabled = Main.getInstance().getConfig().getBoolean("Settings.JoinNetworkMessageEnabled", true);

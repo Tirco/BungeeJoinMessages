@@ -5,6 +5,10 @@ import net.md_5.bungee.api.plugin.Event;
 
 public class NetworkJoinEvent extends Event{
 
+	/**
+	 * Ignore this, it's a test for the sake of being compatible with Discord Bots.
+	 */
+	
 	private ProxiedPlayer player;
 	private String serverJoined;
 	private boolean isSilenced;
