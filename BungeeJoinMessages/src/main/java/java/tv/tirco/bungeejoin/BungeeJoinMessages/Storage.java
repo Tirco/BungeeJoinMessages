@@ -329,10 +329,14 @@ public class Storage {
 
 	
 	public boolean blacklistCheck(ProxiedPlayer player) {
+		if(player.getServer() == null) {
+			MessageHandler.getInstance().log("Warning: Server of " + player.getName() + " came back as Null. Blackisted Server check failed. #01");
+			return false;
+		}
 		String server = player.getServer().getInfo().getName();
 		//Null check because of Geyser issues.
 		if(server == null) {
-			MessageHandler.getInstance().log("Warning: Server of " + player.getName() + " came back as Null. Blackisted Server check failed.");
+			MessageHandler.getInstance().log("Warning: Server of " + player.getName() + " came back as Null. Blackisted Server check failed. #02");
 			return false;
 		}
 		
@@ -358,8 +362,16 @@ public class Storage {
 	}
 
 	public boolean blacklistCheck(String from, String to) {
-		Boolean fromListed = BlacklistedServers.contains(from);
-		Boolean toListed = BlacklistedServers.contains(to);
+		Boolean fromListed = false;
+			if(from != null) {
+				fromListed = BlacklistedServers.contains(from);
+			}
+		
+		Boolean toListed = false;
+			if(to != null) {
+				toListed = BlacklistedServers.contains(to);
+			}
+		
 		Boolean result = true;
 		switch(SwapServerMessageRequires.toUpperCase()) {
 		case "JOINED":
