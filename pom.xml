@@ -3,13 +3,13 @@
     <groupId>tv.tirco.bungeejoin</groupId>
     <artifactId>BungeeJoinMessagesParent</artifactId>
     <!-- Version is used in plugin.yml -->
-    <version>1.10.2</version>
+    <version>1.11.0</version>
     <packaging>pom</packaging>
 
     <!-- Plugin Information -->
     <!-- Name, Description, and URL are used in plugin.yml -->
     <name>BungeeJoinMessagesParent</name>
-    <description>Example of a Spigot plugin using Maven</description>
+    <description>Broadcast Join messages across your network.</description>
     <url>https://www.spigotmc.org/resources/bungee-join-messages.87134/</url>
     
     <modules>
@@ -52,22 +52,15 @@
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
-            <version>1.16-R0.5-SNAPSHOT</version>
+            <version>1.18-R0.1-SNAPSHOT</version>
             <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>1.16-R0.4-SNAPSHOT</version>
-            <type>javadoc</type>
             <scope>provided</scope>
         </dependency>
           <!-- PremiumVanishAPI -->
   			<dependency>
     		<groupId>com.github.LeonMangler</groupId>
     		<artifactId>PremiumVanishAPI</artifactId>
-    		<version>2.6.3</version>
+    		<version>2.7.3</version>
   		</dependency>
     </dependencies>
 
