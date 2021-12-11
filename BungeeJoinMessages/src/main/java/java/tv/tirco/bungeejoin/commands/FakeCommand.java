@@ -17,6 +17,7 @@ import tv.tirco.bungeejoin.util.MessageHandler;
 
 public class FakeCommand extends Command implements TabExecutor{
 
+	//Personal note: I hate the way commands are set up with bungee.
     public FakeCommand() {
         super("fakemessage","bungeejoinmessages.fakemessage","fm");
    }

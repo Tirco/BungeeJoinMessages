@@ -65,7 +65,18 @@ public class MessageHandler {
 		return name;
 	}
 
+	/**
+	 * Send a message globally, based on the players current server.
+	 * @param text - The text to be displayed
+	 * @param type - What type of message should be sendt (switch/join/leave)
+	 * @param p - The player to fetch the server from.
+	 */
 	public void broadcastMessage(String text, String type, ProxiedPlayer p) {
+		if(p.getServer() == null) {
+			//Fixes NPE when connecting to offline server.
+			MessageHandler.getInstance().log("Broadcast Message of " + p.getName() + " halted as Server returned Null. #01");
+			return;
+		}
 		broadcastMessage(text, type, p.getServer().getInfo().getName(), "???");
 	}
 
