@@ -207,8 +207,6 @@ public class MessageHandler {
 		messageFormat = messageFormat.replace("%to_clean%", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',to)));
 		messageFormat = messageFormat.replace("%from%", from);
 		messageFormat = messageFormat.replace("%from_clean%", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',from)));
-		if() {
-		}
 		if(messageFormat.contains("%playercount_from%")) {
 			messageFormat = messageFormat.replace("%playercount_from%", getServerPlayerCount(fromName, true, player));
 		}
